@@ -1,0 +1,8 @@
+﻿[ScreenPracticeMenu]
+HeaderText=Practice Songs
+
+ExplanationGroup=Select the song group.
+ExplanationSong=Select the song you wish to practice.
+ExplanationAction=Press Start to practice!
+ExplanationStepsType=Select the StepsType you want to practice.
+ExplanationSteps=Select a notechart.
