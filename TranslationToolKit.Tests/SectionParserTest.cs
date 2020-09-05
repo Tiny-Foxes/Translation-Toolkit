@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TranslationToolKit.DataModel;
 using Xunit;
 
@@ -11,7 +12,7 @@ namespace TranslationToolKit.Tests
         [Fact]
         public void WhenProvidingWithAListOfLinesThenParseItIntoASection()
         {
-            IList<string> lines = File.ReadAllLines(".\\Input\\SectionParser\\BasicSection.txt");
+            var lines = File.ReadAllLines(".\\Input\\SectionParser\\BasicSection.txt").ToList();
             var section = SectionParser.ParseSection(lines);
 
             Assert.NotNull(section);
@@ -26,7 +27,7 @@ namespace TranslationToolKit.Tests
         [Fact]
         public void WhenProvidedWithASimpleSectionThenParseTheSection()
         {
-            var lines = File.ReadAllLines(".\\Input\\SectionParser\\BasicSection.txt");
+            var lines = File.ReadAllLines(".\\Input\\SectionParser\\BasicSection.txt").ToList();
 
             var section = SectionParser.ParseSection(lines);
 
@@ -60,7 +61,7 @@ namespace TranslationToolKit.Tests
         [Fact]
         public void WhenProvidedWithASectionWithNoTitleThenThrowsAnException()
         {
-            var lines = File.ReadAllLines(".\\Input\\SectionParser\\NoTitle.txt");
+            var lines = File.ReadAllLines(".\\Input\\SectionParser\\NoTitle.txt").ToList();
 
             var exception = Assert.Throws<ArgumentException>(() => SectionParser.ParseSection(lines));
             Assert.Equal("Tried to parse section but no section title found (Parameter 'lines')", exception.Message);
@@ -69,7 +70,7 @@ namespace TranslationToolKit.Tests
         [Fact]
         public void WhenProvidedWithASectionWithEmptyLinesThenTheTitleIsStillFound()
         {
-            var lines = File.ReadAllLines(".\\Input\\SectionParser\\BasicSectionWithAddedWhiteLines.txt");
+            var lines = File.ReadAllLines(".\\Input\\SectionParser\\BasicSectionWithAddedWhiteLines.txt").ToList();
 
             var section = SectionParser.ParseSection(lines);
             Assert.Equal("[ScreenTitleMenu]", section.Title);
@@ -78,7 +79,7 @@ namespace TranslationToolKit.Tests
         [Fact]
         public void WhenProvidedWithASectionWithAddedWhiteLinesThenWhiteLinesAtTheStartAreIgnored()
         {
-            var lines = File.ReadAllLines(".\\Input\\SectionParser\\BasicSectionWithAddedWhiteLines.txt");
+            var lines = File.ReadAllLines(".\\Input\\SectionParser\\BasicSectionWithAddedWhiteLines.txt").ToList();
 
             var section = SectionParser.ParseSection(lines);
 
@@ -103,7 +104,7 @@ namespace TranslationToolKit.Tests
         [Fact]
         public void WhenProvidedWithCommentsThenTheyAreAddedToTheNextLine()
         {
-            var lines = File.ReadAllLines(".\\Input\\SectionParser\\SectionWithComments.txt");
+            var lines = File.ReadAllLines(".\\Input\\SectionParser\\SectionWithComments.txt").ToList();
 
             var section = SectionParser.ParseSection(lines);
 
@@ -124,7 +125,7 @@ namespace TranslationToolKit.Tests
         [Fact]
         public void WhenProvidedWithEmptyLineThenTheyAreAddedToTheSection()
         {
-            var lines = File.ReadAllLines(".\\Input\\SectionParser\\SectionWithEmptyLine.txt");
+            var lines = File.ReadAllLines(".\\Input\\SectionParser\\SectionWithEmptyLine.txt").ToList();
 
             var section = SectionParser.ParseSection(lines);
 
