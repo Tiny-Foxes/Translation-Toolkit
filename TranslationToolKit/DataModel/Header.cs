@@ -8,7 +8,7 @@ namespace TranslationToolKit.DataModel
     /// A class defining position info for Lines or Sections.
     /// Used in particular to track duplicate keys.
     /// </summary>
-    public class Header : IEquatable<Header>
+    public class Header : IEquatable<Header?>
     {
         /// <summary>
         /// The Key identifying the object. In a perfectly formatted file, this would be enough.
@@ -32,15 +32,20 @@ namespace TranslationToolKit.DataModel
             OccurenceIndex = occurenceIndex;
         }
 
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return $"[Key:{Key}|Index:{OccurenceIndex}]";
+        }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return Equals(obj as Header);
         }
 
         /// <inheritdoc />
-        public bool Equals(Header other)
+        public bool Equals(Header? other)
         {
             return other != null &&
                    Key == other.Key &&
@@ -51,12 +56,6 @@ namespace TranslationToolKit.DataModel
         public override int GetHashCode()
         {
             return HashCode.Combine(Key, OccurenceIndex);
-        }
-
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return $"[Key:{Key}|Index:{OccurenceIndex}]";
         }
     }
 }

@@ -52,10 +52,8 @@ namespace TranslationToolKit.Tests
         [Fact]
         public void WhenProvidedWithAnEmptyOrNullListThenThrowsAnException()
         {
-            var exception = Assert.Throws<ArgumentException>(() => SectionParser.ParseSection(null));
-            Assert.Equal("Tried to parse section but provided lines list is either null or empty (Parameter 'lines')", exception.Message);
-            exception = Assert.Throws<ArgumentException>(() => SectionParser.ParseSection(new List<string>()));
-            Assert.Equal("Tried to parse section but provided lines list is either null or empty (Parameter 'lines')", exception.Message);
+            var exception = Assert.Throws<ArgumentException>(() => SectionParser.ParseSection(new List<string>()));
+            Assert.Equal("Tried to parse section but provided lines list is empty (Parameter 'lines')", exception.Message);
         }
 
         [Fact]

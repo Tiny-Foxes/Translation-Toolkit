@@ -19,8 +19,8 @@ namespace TranslationToolKit
         {
             var sections = new Dictionary<string, Section>();
             var sectionStarted = false;
-            List<string> currentSection = null;
-            for(int i = 0; i < file.Count; i++)
+            List<string> currentSection;
+            for (int i = 0; i < file.Count; i++)
             {
                 var line = file[i];
 

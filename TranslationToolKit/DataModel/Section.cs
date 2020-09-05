@@ -29,6 +29,7 @@ namespace TranslationToolKit.DataModel
 
         public Section()
         {
+            Title = "";
             Lines = new Dictionary<Header, Line>();
         }
 

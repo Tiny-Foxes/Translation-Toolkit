@@ -17,7 +17,7 @@ namespace TranslationToolKit.DataModel
     /// Comment:
     /// "# This is the button label for Fitness Mode"
     /// </summary>
-    public sealed class Line : IEquatable<Line>
+    public sealed class Line : IEquatable<Line?>
     {
         /// <summary>
         /// The name of the line we're translating
@@ -40,43 +40,11 @@ namespace TranslationToolKit.DataModel
         /// </summary>
         /// <param name="title"></param>
         /// <param name="text"></param>
-        public Line(string title, string text, string comment = null)
+        public Line(string title, string text, string comment = "")
         {
             Key = title;
             Value = text;
             Comment = comment;
-        }
-
-        /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            if(obj == null)
-            {
-                return false;
-            }
-            if (obj is Line)
-            {
-                return Equals(obj as Line);
-            }
-            else return false;
-        }
-
-        /// <inheritdoc />
-        public bool Equals(Line other)
-        {
-            if(other == null)
-            {
-                return false;
-            }
-            return string.Equals(Key, other.Key)
-                && string.Equals(Value, other.Value)
-                && string.Equals(Comment, other.Comment);                    
-        }
-
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Key, Value, Comment);
         }
 
         /// <inheritdoc />
@@ -87,6 +55,27 @@ namespace TranslationToolKit.DataModel
                 return $"{Key}={Value}";
             }
             return $"{Comment}\n{Key}={Value}";
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object? obj)
+        {
+            return Equals(obj as Line);
+        }
+
+        /// <inheritdoc />
+        public bool Equals(Line? other)
+        {
+            return other != null &&
+                   Key == other.Key &&
+                   Value == other.Value &&
+                   Comment == other.Comment;
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Key, Value, Comment);
         }
     }
 }

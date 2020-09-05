@@ -18,9 +18,9 @@ namespace TranslationToolKit
         /// <returns></returns>
         public static Section ParseSection(List<string> lines)
         {
-            if(lines == null || lines.Count == 0)
+            if(lines.Count == 0)
             {
-                throw new ArgumentException("Tried to parse section but provided lines list is either null or empty", nameof(lines));
+                throw new ArgumentException("Tried to parse section but provided lines list is empty", nameof(lines));
             }
             var section = new Section();
 
@@ -31,7 +31,7 @@ namespace TranslationToolKit
             }
             section.Title = lines[titleIndex];
 
-            string comment = null;
+            string comment = string.Empty;
             foreach(var line in lines.Skip(titleIndex))
             {
                 ProcessLine(line.TrimStart(), section, ref comment);
@@ -70,7 +70,7 @@ namespace TranslationToolKit
                 var title = line.Substring(0, index);
                 var value = line.Substring(index + 1);
                 section.AddLine(new Line(title, value, comment));
-                comment = null;
+                comment = "";
             }
         }
     }
