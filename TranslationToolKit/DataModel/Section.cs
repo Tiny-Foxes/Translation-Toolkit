@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace TranslationToolKit.DataModel
 {
@@ -16,22 +19,17 @@ namespace TranslationToolKit.DataModel
         /// <summary>
         /// List of lines in the section
         /// </summary>
-        public IDictionary<string, Line> Lines { get; }
+        public IDictionary<Header, Line> Lines { get; }
 
-        /// <summary>
-        /// A constant that is used to generate a title for empty lines, so we can track and keep them.
-        /// </summary>
-        public const string EmptyLineTitlePrefix = "ToolKitEmptyLineSection";
-
-        private int suffix = 0;
+        private int emptyLineOccurences = 0;
         /// <summary>
         /// The generated suffix for empty lines
         /// </summary>
-        private int EmptyLineSuffix => suffix++;
+        private int EmptyLineOccurences => emptyLineOccurences++;
 
         public Section()
         {
-            Lines = new Dictionary<string, Line>();
+            Lines = new Dictionary<Header, Line>();
         }
 
         /// <summary>
@@ -40,8 +38,17 @@ namespace TranslationToolKit.DataModel
         /// </summary>
         public void AddEmptyLine()
         {
-            var header = $"{EmptyLineTitlePrefix}{EmptyLineSuffix}";
-            Lines.Add(header, new Line(header, ""));
+            var header = new Header("", EmptyLineOccurences);
+            Lines.Add(header, new Line(string.Empty, string.Empty));
+        }
+
+        /// <summary>
+        /// Add a line to the section.
+        /// </summary>
+        /// <param name="line"></param>
+        public void AddLine(Line line)
+        {
+            Lines.Add(new Header(line.Key, 0), line);
         }
     }
 }

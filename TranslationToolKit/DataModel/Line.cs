@@ -20,14 +20,13 @@ namespace TranslationToolKit.DataModel
     public sealed class Line : IEquatable<Line>
     {
         /// <summary>
-        /// The key of the line we're translating
+        /// The name of the line we're translating
         /// Ex: for line Fitness=Fitness Mode, title is Fitness.
         /// </summary>
         public string Key { get; }
 
         /// <summary>
-        /// The value of the line we're translating 
-        /// Ex: for line Fitness=Fitness Mode, value is Fitness Mode.
+        /// The Value 
         /// </summary>
         public string Value { get; }
 

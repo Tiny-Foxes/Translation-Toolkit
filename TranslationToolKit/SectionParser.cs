@@ -69,7 +69,7 @@ namespace TranslationToolKit
             {
                 var title = line.Substring(0, index);
                 var value = line.Substring(index + 1);
-                section.Lines.Add(title, new Line(title, value, comment));
+                section.AddLine(new Line(title, value, comment));
                 comment = null;
             }
         }
