@@ -15,9 +15,38 @@ namespace TranslationToolKit
         /// </summary>
         /// <param name="file">the file to parse</param>
         /// <returns></returns>
-        public IDictionary<string, Section> ProcessFileIntoSections(string file)
+        public static IDictionary<string, Section> ProcessFileIntoSections(IList<string> file)
         {
-            throw new NotImplementedException();
+            var sections = new Dictionary<string, Section>();
+            var sectionStarted = false;
+            List<string> currentSection = null;
+            for(int i = 0; i < file.Count; i++)
+            {
+                var line = file[i];
+
+                if(line.StartsWith("["))
+                {
+                    sectionStarted = !sectionStarted;
+
+                    if (sectionStarted)
+                    {
+                        currentSection = new List<string>() { line };
+                    }
+                    else
+                    {
+                        var section = SectionParser.ParseSection(currentSection);
+                        sections.Add(section.Title, section);
+                    }
+                }
+                else
+                {
+                    if(sectionStarted)
+                    {
+                        currentSection.Add(line);
+                    }
+                }
+            }
+            return sections;
         }
     }
 }

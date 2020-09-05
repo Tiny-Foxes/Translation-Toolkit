@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using TranslationToolKit;
 using Xunit;
 
@@ -9,13 +10,12 @@ namespace TranslationToolKit.Tests
         [Fact]
         public void WhenGivingAValidFileThenItReturnsListOfSections()
         {
-            var parser = new FileParser();
+            var lines = File.ReadAllLines(".\\Input\\FileParser\\en-default.ini");
 
-            string file = "";
-
-            var result = parser.ProcessFileIntoSections(file);
+            var result = FileParser.ProcessFileIntoSections(lines);
 
             Assert.NotNull(result);
+            Assert.NotEmpty(result);
 
             foreach(var key in result.Keys)
             {
