@@ -28,7 +28,7 @@ namespace TranslationToolKit.DataModel
         private int EmptyLineOccurences => emptyLineOccurences++;
 
         public Section()
-        {
+        {           
             Title = "";
             Lines = new Dictionary<Header, Line>();
         }

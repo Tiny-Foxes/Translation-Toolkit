@@ -18,34 +18,26 @@ namespace TranslationToolKit
         public static IDictionary<string, Section> ProcessFileIntoSections(IList<string> file)
         {
             var sections = new Dictionary<string, Section>();
-            var sectionStarted = false;
-            List<string> currentSection;
-            for (int i = 0; i < file.Count; i++)
+            List<string> currentSection = new List<string>();
+            Section section;
+            foreach (var line in file)
             {
-                var line = file[i];
-
-                if(line.StartsWith("["))
+                if (line.StartsWith("["))
                 {
-                    sectionStarted = !sectionStarted;
-
-                    if (sectionStarted)
+                    if (currentSection.Count != 0)
                     {
-                        currentSection = new List<string>() { line };
-                    }
-                    else
-                    {
-                        var section = SectionParser.ParseSection(currentSection);
+                        section = SectionParser.ParseSection(currentSection);
                         sections.Add(section.Title, section);
-                    }
+                    }                    
+                    currentSection = new List<string>() { line };
                 }
                 else
                 {
-                    if(sectionStarted)
-                    {
-                        currentSection.Add(line);
-                    }
+                    currentSection.Add(line);
                 }
             }
+            section = SectionParser.ParseSection(currentSection);
+            sections.Add(section.Title, section);
             return sections;
         }
     }
