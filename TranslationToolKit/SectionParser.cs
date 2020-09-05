@@ -67,8 +67,9 @@ namespace TranslationToolKit
             }
             else if (index >= 1)
             {
-                var substring = line.Substring(0, index);
-                section.Lines.Add(substring, new Line(substring, line, comment));
+                var title = line.Substring(0, index);
+                var value = line.Substring(index + 1);
+                section.Lines.Add(title, new Line(title, value, comment));
                 comment = null;
             }
         }

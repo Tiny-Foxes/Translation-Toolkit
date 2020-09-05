@@ -20,15 +20,16 @@ namespace TranslationToolKit.DataModel
     public sealed class Line : IEquatable<Line>
     {
         /// <summary>
-        /// The name of the line we're translating
+        /// The key of the line we're translating
         /// Ex: for line Fitness=Fitness Mode, title is Fitness.
         /// </summary>
-        public string Title { get; }
+        public string Key { get; }
 
         /// <summary>
-        /// A full line of text, it includes the title
+        /// The value of the line we're translating 
+        /// Ex: for line Fitness=Fitness Mode, value is Fitness Mode.
         /// </summary>
-        public string Text { get; }
+        public string Value { get; }
 
         /// <summary>
         /// Comment may be above the line to translate, in which case, this field holds that.
@@ -42,8 +43,8 @@ namespace TranslationToolKit.DataModel
         /// <param name="text"></param>
         public Line(string title, string text, string comment = null)
         {
-            Title = title;
-            Text = text;
+            Key = title;
+            Value = text;
             Comment = comment;
         }
 
@@ -68,15 +69,15 @@ namespace TranslationToolKit.DataModel
             {
                 return false;
             }
-            return string.Equals(Title, other.Title)
-                && string.Equals(Text, other.Text)
+            return string.Equals(Key, other.Key)
+                && string.Equals(Value, other.Value)
                 && string.Equals(Comment, other.Comment);                    
         }
 
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            return HashCode.Combine(Title, Text, Comment);
+            return HashCode.Combine(Key, Value, Comment);
         }
 
         /// <inheritdoc />
@@ -84,9 +85,9 @@ namespace TranslationToolKit.DataModel
         {
             if(string.IsNullOrEmpty(Comment))
             {
-
+                return $"{Key}={Value}";
             }
-            return $"{Comment}\n{Title}={Text}";
+            return $"{Comment}\n{Key}={Value}";
         }
     }
 }
