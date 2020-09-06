@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace TranslationToolKit.Business.DataModel
+namespace TranslationToolKit.FileProcessing.DataModel
 {
     /// <summary>
     /// Represents a line of data from the translation file.

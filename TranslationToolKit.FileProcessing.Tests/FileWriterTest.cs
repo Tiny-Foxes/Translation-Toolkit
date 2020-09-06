@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
-using TranslationToolKit.Business.DataModel;
-using TranslationToolKit.Business.Tests.Helper;
+using TranslationToolKit.FileProcessing.DataModel;
+using TranslationToolKit.FileProcessing.Tests.Helper;
 using Xunit;
 
-namespace TranslationToolKit.Business.Tests
+namespace TranslationToolKit.FileProcessing.Tests
 {
     public class FileWriterTest
     {

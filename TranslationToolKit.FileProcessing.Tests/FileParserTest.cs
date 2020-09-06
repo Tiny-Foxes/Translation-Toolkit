@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using Xunit;
 using System.Collections.Generic;
-using TranslationToolKit.Business.DataModel;
+using TranslationToolKit.FileProcessing.DataModel;
 
-namespace TranslationToolKit.Business.Tests
+namespace TranslationToolKit.FileProcessing.Tests
 {
     public class FileParserTest
     {

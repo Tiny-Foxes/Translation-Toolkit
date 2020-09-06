@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace TranslationToolKit.Business.DataModel
+namespace TranslationToolKit.FileProcessing.DataModel
 {
     /// <summary>
     /// A class defining position info for Lines or Sections.

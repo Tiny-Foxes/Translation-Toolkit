@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TranslationToolKit.Business.DataModel
+namespace TranslationToolKit.FileProcessing.DataModel
 {
     /// <summary>
     /// A class representing a file parsed into sections.

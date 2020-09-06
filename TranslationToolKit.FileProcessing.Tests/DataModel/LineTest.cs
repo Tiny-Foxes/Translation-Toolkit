@@ -1,8 +1,8 @@
 ﻿using System;
-using TranslationToolKit.Business.DataModel;
+using TranslationToolKit.FileProcessing.DataModel;
 using Xunit;
 
-namespace TranslationToolKit.Business.Tests.DataModel
+namespace TranslationToolKit.FileProcessing.Tests.DataModel
 {
     public class LineTest
     {
