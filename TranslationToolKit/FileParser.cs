@@ -15,11 +15,14 @@ namespace TranslationToolKit
         /// </summary>
         /// <param name="file">the file to parse</param>
         /// <returns></returns>
-        public static IDictionary<string, Section> ProcessFileIntoSections(IList<string> file)
+        public static ParsedFile ProcessFileIntoSections(IList<string> file)
         {
-            var sections = new Dictionary<string, Section>();
+            var result = new ParsedFile();
+
             List<string> currentSection = new List<string>();
             Section section;
+            var index = 0;
+
             foreach (var line in file)
             {
                 if (line.StartsWith("["))
@@ -27,7 +30,7 @@ namespace TranslationToolKit
                     if (currentSection.Count != 0)
                     {
                         section = SectionParser.ParseSection(currentSection);
-                        sections.Add(section.Title, section);
+                        result.AddSection(section, index++);
                     }                    
                     currentSection = new List<string>() { line };
                 }
@@ -36,9 +39,10 @@ namespace TranslationToolKit
                     currentSection.Add(line);
                 }
             }
+
             section = SectionParser.ParseSection(currentSection);
-            sections.Add(section.Title, section);
-            return sections;
+            result.AddSection(section, index++);
+            return result;
         }
     }
 }

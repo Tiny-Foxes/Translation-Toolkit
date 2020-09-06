@@ -15,7 +15,7 @@ namespace TranslationToolKit.DataModel
         /// The Key identifying the object. In a perfectly formatted file, this would be enough.
         /// In real life, there can be duplicate keys.
         /// </summary>
-        public string Key { get; set; }
+        public string HeaderKey { get; set; }
 
         /// <summary>
         /// For 2 objects with the same key, track the order in which they appear.
@@ -34,7 +34,7 @@ namespace TranslationToolKit.DataModel
         /// <param name="occurenceIndex"></param>
         public Header(string key, int occurenceIndex, int index)
         {
-            Key = key;
+            HeaderKey = key;
             OccurenceIndex = occurenceIndex;
             Index = index;
         }
@@ -42,7 +42,7 @@ namespace TranslationToolKit.DataModel
         /// <inheritdoc />
         public override string ToString()
         {
-            return $"[Key:{Key}|OccurrenceIndex:{OccurenceIndex}|Index:{Index}]";
+            return $"[Key:{HeaderKey}|OccurrenceIndex:{OccurenceIndex}|Index:{Index}]";
         }
 
         /// <inheritdoc />
@@ -55,14 +55,15 @@ namespace TranslationToolKit.DataModel
         public bool Equals(Header? other)
         {
             return other != null &&
-                   Key == other.Key &&
-                   OccurenceIndex == other.OccurenceIndex;
+                   HeaderKey == other.HeaderKey &&
+                   OccurenceIndex == other.OccurenceIndex &&
+                   Index == other.Index;
         }
 
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            return HashCode.Combine(Key, OccurenceIndex);
+            return HashCode.Combine(HeaderKey, OccurenceIndex);
         }
 
         /// <summary>
@@ -78,6 +79,17 @@ namespace TranslationToolKit.DataModel
                 return -1;
             }
             return Index - other.Index;
+        }
+
+        /// <summary>
+        /// Because our headers are in a SortedDictionary, CompareTo is used to look up stuff, so only the index is used
+        /// so if you need to find a header, this method creates a fake header with just the index, for the look up.
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        public static Header GetIndex(int i)
+        {
+            return new Header("", 0, i);
         }
     }
 }

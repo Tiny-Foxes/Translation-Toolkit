@@ -4,15 +4,15 @@ namespace TranslationToolKit.DataModel
 {
     /// <summary>
     /// Represents a line of data from the translation file.
-    /// Note: This may not represent a file line, as we also include any comment above the actual text line.
+    /// Note: This may not represent a single file line, as we also include any comment above the actual text line.
     /// 
     /// Ex:
     /// # This is the button label for Fitness Mode
     /// Fitness=Fitness Mode
     /// 
-    /// Title: 
+    /// TranslationKey: 
     /// "Fitness"
-    /// Text: 
+    /// TranslatedValue: 
     /// "Fitness=Fitness Mode"
     /// Comment:
     /// "# This is the button label for Fitness Mode"
@@ -21,14 +21,15 @@ namespace TranslationToolKit.DataModel
     {
         /// <summary>
         /// The name of the line we're translating
-        /// Ex: for line Fitness=Fitness Mode, title is Fitness.
+        /// Ex: for line Fitness=Fitness Mode, TranslationKey is "Fitness".
         /// </summary>
-        public string Key { get; }
+        public string TranslationKey { get; }
 
         /// <summary>
-        /// The Value 
+        /// The translated value.
+        /// Ex: for line Fitness=Fitness Mode, TranslatedValue is "Fitness Mode".
         /// </summary>
-        public string Value { get; }
+        public string TranslatedValue { get; }
 
         /// <summary>
         /// Comment may be above the line to translate, in which case, this field holds that.
@@ -42,8 +43,8 @@ namespace TranslationToolKit.DataModel
         /// <param name="text"></param>
         public Line(string title, string text, string comment = "")
         {
-            Key = title;
-            Value = text;
+            TranslationKey = title;
+            TranslatedValue = text;
             Comment = comment;
         }
 
@@ -52,9 +53,9 @@ namespace TranslationToolKit.DataModel
         {
             if(string.IsNullOrEmpty(Comment))
             {
-                return $"{Key}={Value}";
+                return $"{TranslationKey}={TranslatedValue}";
             }
-            return $"{Comment}\n{Key}={Value}";
+            return $"{Comment}\n{TranslationKey}={TranslatedValue}";
         }
 
         /// <inheritdoc />
@@ -67,15 +68,15 @@ namespace TranslationToolKit.DataModel
         public bool Equals(Line? other)
         {
             return other != null &&
-                   Key == other.Key &&
-                   Value == other.Value &&
+                   TranslationKey == other.TranslationKey &&
+                   TranslatedValue == other.TranslatedValue &&
                    Comment == other.Comment;
         }
 
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            return HashCode.Combine(Key, Value, Comment);
+            return HashCode.Combine(TranslationKey, TranslatedValue, Comment);
         }
     }
 }
