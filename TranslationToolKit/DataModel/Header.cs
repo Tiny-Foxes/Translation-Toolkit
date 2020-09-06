@@ -63,7 +63,7 @@ namespace TranslationToolKit.DataModel
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            return HashCode.Combine(HeaderKey, OccurenceIndex);
+            return HashCode.Combine(Index);
         }
 
         /// <summary>
