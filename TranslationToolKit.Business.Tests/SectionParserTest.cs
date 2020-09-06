@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using TranslationToolKit.DataModel;
+using TranslationToolKit.Business;
+using TranslationToolKit.Business.DataModel;
 using Xunit;
 
-namespace TranslationToolKit.Tests
+namespace TranslationToolKit.Business.Tests
 {
     public class SectionParserTest
     {

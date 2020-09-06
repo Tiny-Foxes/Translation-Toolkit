@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.IO;
 using System.Text;
-using TranslationToolKit.DataModel;
+using TranslationToolKit.Business.DataModel;
 
-namespace TranslationToolKit
+namespace TranslationToolKit.Business
 {
     /// <summary>
     /// A writer for our file, using Unicode and Unix style endings.

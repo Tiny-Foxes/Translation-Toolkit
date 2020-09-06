@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Text;
 
-namespace TranslationToolKit.DataModel
+namespace TranslationToolKit.Business.DataModel
 {
     /// <summary>
     /// A class defining position info for Lines or Sections.

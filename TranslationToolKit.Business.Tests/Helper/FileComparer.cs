@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using Xunit;
 
-namespace TranslationToolKit.Tests.Helper
+namespace TranslationToolKit.Business.Tests.Helper
 {
     /// <summary>
     /// A file comparer, courtesy of

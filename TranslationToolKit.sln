@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslationToolKit", "TranslationToolKit\TranslationToolKit.csproj", "{F448219A-8E41-48A1-BBA5-BB651743FC0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslationToolKit", "TranslationToolKit\TranslationToolKit.csproj", "{F448219A-8E41-48A1-BBA5-BB651743FC0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslationToolKit.Tests", "TranslationToolKit.Tests\TranslationToolKit.Tests.csproj", "{61B82C56-3B03-4490-A8B8-38C335F2BC87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslationToolKit.Business.Tests", "TranslationToolKit.Business.Tests\TranslationToolKit.Business.Tests.csproj", "{61B82C56-3B03-4490-A8B8-38C335F2BC87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslationToolKit.Business", "TranslationToolKit.Business\TranslationToolKit.Business.csproj", "{35A8B691-567F-4D16-A86C-B45A3BFB76EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{61B82C56-3B03-4490-A8B8-38C335F2BC87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61B82C56-3B03-4490-A8B8-38C335F2BC87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61B82C56-3B03-4490-A8B8-38C335F2BC87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35A8B691-567F-4D16-A86C-B45A3BFB76EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35A8B691-567F-4D16-A86C-B45A3BFB76EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35A8B691-567F-4D16-A86C-B45A3BFB76EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35A8B691-567F-4D16-A86C-B45A3BFB76EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

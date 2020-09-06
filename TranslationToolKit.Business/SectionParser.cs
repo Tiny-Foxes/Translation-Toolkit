@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TranslationToolKit.DataModel;
+using TranslationToolKit.Business.DataModel;
 
-namespace TranslationToolKit
+namespace TranslationToolKit.Business
 {
     /// <summary>
     /// Parser for a section from a translation file.
@@ -24,7 +24,7 @@ namespace TranslationToolKit
         /// <returns></returns>
         public Section ParseSection(List<string> lines)
         {
-            if(lines.Count == 0)
+            if (lines.Count == 0)
             {
                 throw new ArgumentException("Tried to parse section but provided lines list is empty", nameof(lines));
             }
@@ -40,11 +40,11 @@ namespace TranslationToolKit
 
             string comment = string.Empty;
             int currentIndex = 0;
-            foreach (var line in lines.Skip(titleIndex+1))
+            foreach (var line in lines.Skip(titleIndex + 1))
             {
                 ProcessLine(line.TrimStart(), section, ref currentIndex, ref comment);
-            }            
-            
+            }
+
             ExtraneousComment = comment;
 
             return section;
@@ -67,7 +67,7 @@ namespace TranslationToolKit
             if (line.StartsWith("#") || line.StartsWith("//") || line.StartsWith(";"))
             {
                 // Note: we don't increment index on comments because comments are added as part of the line they comment.
-                if(comment.Length != 0)
+                if (comment.Length != 0)
                 {
                     comment += EnvironmentConstants.EndOfLine;
                 }

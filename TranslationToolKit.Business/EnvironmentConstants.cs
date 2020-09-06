@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TranslationToolKit
+namespace TranslationToolKit.Business
 {
     public static class EnvironmentConstants
     {

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using TranslationToolKit.DataModel;
+using TranslationToolKit.Business.DataModel;
 
-namespace TranslationToolKit
+namespace TranslationToolKit.Business
 {
     /// <summary>
     /// Parser for a translation file

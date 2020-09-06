@@ -1,4 +1,4 @@
-﻿using TranslationToolKit.DataModel;
+﻿using TranslationToolKit.Business.DataModel;
 using Xunit;
 
 namespace TranslationToolKit.Tests.DataModel

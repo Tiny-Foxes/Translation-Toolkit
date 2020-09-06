@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TranslationToolKit.DataModel
+namespace TranslationToolKit.Business.DataModel
 {
     /// <summary>
     /// Represents a section in the translation line.
