@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TranslationToolKit.DataModel;
+﻿using TranslationToolKit.DataModel;
 using Xunit;
 
 namespace TranslationToolKit.Tests.DataModel
@@ -11,8 +8,8 @@ namespace TranslationToolKit.Tests.DataModel
         [Fact]
         public void TestToString()
         {
-            var header = new Header("ABC", 2);
-            Assert.Equal("[Key:ABC|Index:2]", header.ToString());
+            var header = new Header("ABC", 2, 37);
+            Assert.Equal("[Key:ABC|OccurrenceIndex:2|Index:37]", header.ToString());
         }
     }
 }

@@ -32,9 +32,10 @@ namespace TranslationToolKit
             section.Title = lines[titleIndex];
 
             string comment = string.Empty;
-            foreach(var line in lines.Skip(titleIndex))
+            int currentIndex = 0;
+            foreach (var line in lines.Skip(titleIndex+1))
             {
-                ProcessLine(line.TrimStart(), section, ref comment);
+                ProcessLine(line.TrimStart(), section, ref currentIndex, ref comment);
             }
             return section;
         }
@@ -45,31 +46,26 @@ namespace TranslationToolKit
         /// <param name="line"></param>
         /// <param name="section"></param>
         /// <param name="comment"></param>
-        private static void ProcessLine(string line, Section section, ref string comment)
+        private static void ProcessLine(string line, Section section, ref int currentIndex, ref string comment)
         {
-            if(string.IsNullOrWhiteSpace(line))
+            if (string.IsNullOrWhiteSpace(line))
             {
-                section.AddEmptyLine();
+                section.AddEmptyLine(currentIndex++);
+                return;
+            }
+            if (line.StartsWith("#"))
+            {
+                // Note: we don't increment index on comments because comments are added as part of the line they comment.
+                comment += line;
                 return;
             }
 
-            int index = line.IndexOf('=');
-            if (line.StartsWith("#"))
+            int delimiterPosition = line.IndexOf('=');
+            if (delimiterPosition >= 1)
             {
-                if (comment == null)
-                {
-                    comment = line;
-                }
-                else
-                {
-                    comment += line;
-                }
-            }
-            else if (index >= 1)
-            {
-                var title = line.Substring(0, index);
-                var value = line.Substring(index + 1);
-                section.AddLine(new Line(title, value, comment));
+                var title = line.Substring(0, delimiterPosition);
+                var value = line.Substring(delimiterPosition + 1);
+                section.AddLine(new Line(title, value, comment), currentIndex++);
                 comment = "";
             }
         }

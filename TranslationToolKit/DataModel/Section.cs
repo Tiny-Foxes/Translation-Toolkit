@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
+﻿using System.Collections.Generic;
 
 namespace TranslationToolKit.DataModel
 {
@@ -19,7 +16,7 @@ namespace TranslationToolKit.DataModel
         /// <summary>
         /// List of lines in the section
         /// </summary>
-        public IDictionary<Header, Line> Lines { get; }
+        public SortedDictionary<Header, Line> Lines { get; }
 
         private int emptyLineOccurences = 0;
         /// <summary>
@@ -30,26 +27,28 @@ namespace TranslationToolKit.DataModel
         public Section()
         {           
             Title = "";
-            Lines = new Dictionary<Header, Line>();
+            Lines = new SortedDictionary<Header, Line>();
         }
 
         /// <summary>
         /// When file has an empty line, keep track of it with a generated header name,
         /// so we can retranscribe it later on (translation sections may be divided in blocks)
         /// </summary>
-        public void AddEmptyLine()
+        /// <param name="index">index of this line within the section</param>
+        public void AddEmptyLine(int index)
         {
-            var header = new Header("", EmptyLineOccurences);
+            var header = new Header("", EmptyLineOccurences, index);
             Lines.Add(header, new Line(string.Empty, string.Empty));
         }
 
         /// <summary>
         /// Add a line to the section.
         /// </summary>
-        /// <param name="line"></param>
-        public void AddLine(Line line)
+        /// <param name="line">the line to be added</param>
+        /// <param name="index">index of this line within the section</param>
+        public void AddLine(Line line, int index)
         {
-            Lines.Add(new Header(line.Key, 0), line);
+            Lines.Add(new Header(line.Key, 0, index), line);
         }
     }
 }

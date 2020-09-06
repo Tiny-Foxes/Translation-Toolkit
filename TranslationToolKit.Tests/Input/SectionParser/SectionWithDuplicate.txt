@@ -1,0 +1,32 @@
+﻿[ScreenEvaluation]
+HelpText=&BACK; Exit &START; Move On &MENULEFT;-&MENURIGHT; Change Page &SELECT; Snapshot
+LifeDifficulty=Life Difficulty: %s
+TimingDifficulty=Judge %s
+TimingName=Timing: %s
+MachineRecord=Machine Record #%i!
+PersonalRecord=Personal Record #%i!
+ITG DP:=ITG DP:
+MIGS DP:=MIGS DP:
+HeaderText=Results
+HeaderSubText=Let's see how you did.
+ExtraUnlocked=Extra Stage Available!
+Statistics=Statistics
+ColumnSc=Timing Distribution
+FitnessInfo=Fitness Stats
+Barely!=Barely!
+
+CurrentZoom=Zoom: %s
+ZoomHelp1=&UP;&DOWN; Zoom graph
+ZoomHelp2=&UP;&DOWN; Zoom  &LEFT;&RIGHT; Pan
+ZoomHelpPad1=&UP; or &DOWN; Zoom
+ZoomHelpPad2=&UP; or &DOWN; Zoom - &LEFT; or &RIGHT; Pan
+HelpText=&BACK; Exit &START; Move On &MENULEFT;&MENURIGHT; Change Page &SELECT; Snapshot
+
+CaloriesBurnedSong=Calories Burned (This Song)
+CaloriesToday=Calories Today
+CaloriesTotal=Calories Total
+NoProfileSet=This player has no profile, and thus, Fitness data will not be saved at the end of each song.
+NoGoal=No goals are set.
+GoalAchieved=Goal Achieved!
+GoalToGo=to go!
+CurrentGoal=Current Goal
