@@ -25,9 +25,14 @@ namespace TranslationToolKit
                 writer.Write(file.FileHeader);
 
                 foreach (var sectionData in file)
-                {
+                {                    
                     var section = sectionData.Value;
 
+                    if(section.SectionComment != string.Empty)
+                    {
+                        writer.Write(section.SectionComment);
+                        writer.Write(EnvironmentConstants.EndOfLine);
+                    }
                     writer.Write(section.Title);
                     writer.Write(EnvironmentConstants.EndOfLine);
 

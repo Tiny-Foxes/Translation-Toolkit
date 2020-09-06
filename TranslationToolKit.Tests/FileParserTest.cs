@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Xunit;
 using System.Collections.Generic;
+using TranslationToolKit.DataModel;
 
 namespace TranslationToolKit.Tests
 {
@@ -91,6 +92,22 @@ namespace TranslationToolKit.Tests
             Assert.NotNull(result);
             Assert.NotNull(result.FileHeader);
             Assert.Equal($"// Stepmania用日本語言語パック(fallback用) Ver.2-20150411{EnvironmentConstants.EndOfLine}{EnvironmentConstants.EndOfLine}// 翻訳終わった部分には済マーク入れます{EnvironmentConstants.EndOfLine}// 5.0.7の追加オプションの説明を追加{EnvironmentConstants.EndOfLine}// BGはもう少しお待ちください{EnvironmentConstants.EndOfLine}{EnvironmentConstants.EndOfLine}// find_missing_strings_in_theme_translationsで無かった分を補完 -hanubeki 2015/04/14{EnvironmentConstants.EndOfLine}// New-Options-menu向けに翻訳を追加 -hanubeki 2015/04/24{EnvironmentConstants.EndOfLine}// 5.3 OutFox向けに翻訳を追加 -hanubeki 2020/02/11{EnvironmentConstants.EndOfLine}{EnvironmentConstants.EndOfLine}", result.FileHeader);
+        }
+
+        [Fact]
+        public void WhenThereIsACommentOnTopOfASectionThenAddItAsACommentToTheSection()
+        {
+            var result = FileParser.ProcessFileIntoSections($".\\Input\\FileParser\\es-withsectioncomment.txt");
+            Assert.NotNull(result);
+            Assert.Equal(2, result.Count);
+
+            Assert.Equal(15, result[0].Count);
+            Assert.Equal(new Line("", "", ""), result[0][14]);
+
+            Assert.Equal(2, result[1].Count);
+            Assert.Equal("# Time to manage each screen's options", result[1].SectionComment);
+            Assert.Equal(new Line("HelpText", "&BACK; Regresar &START; Seleccionar &MENULEFT;&MENURIGHT; Mover", ""), result[1][0]);
+            Assert.Equal(new Line("", "", "# HeaderSubText does not need translation, we don't even use it."), result[1][1]);
         }
     }
 }

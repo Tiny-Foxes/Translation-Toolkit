@@ -8,21 +8,28 @@ namespace TranslationToolKit
     /// <summary>
     /// Parser for a section from a translation file.
     /// </summary>
-    public static class SectionParser
+    public class SectionParser
     {
+        /// <summary>
+        /// If at the end of a section, there is an unused comment,
+        /// assume it's gonna be a comment for the next section
+        /// </summary>
+        public string ExtraneousComment { get; set; } = "";
+
         /// <summary>
         /// Parse the provided lines, which should cover a full section, into a section object
         /// with a title and a bunch of Lines
         /// </summary>
         /// <param name="lines">the lines of the section we want to parse</param>
         /// <returns></returns>
-        public static Section ParseSection(List<string> lines)
+        public Section ParseSection(List<string> lines)
         {
             if(lines.Count == 0)
             {
                 throw new ArgumentException("Tried to parse section but provided lines list is empty", nameof(lines));
             }
             var section = new Section();
+            section.SectionComment = ExtraneousComment;
 
             var titleIndex = lines.FindIndex(x => x.StartsWith("["));
             if (titleIndex == -1)
@@ -36,7 +43,10 @@ namespace TranslationToolKit
             foreach (var line in lines.Skip(titleIndex+1))
             {
                 ProcessLine(line.TrimStart(), section, ref currentIndex, ref comment);
-            }
+            }            
+            
+            ExtraneousComment = comment;
+
             return section;
         }
 

@@ -1,0 +1,22 @@
+﻿[ScreenSelectMusic]
+NEW!=NEW!
+Press Start For Options=Presiona &START; para opciones
+Start To Join=&START; para unirse
+Entering Options=Entrando a opciones...
+HelpText=&BACK; Salir  &START; Seleccionar / Unirse &MENULEFT;&MENURIGHT; Mover :: &MENUUP;&MENUUP;/&MENUDOWN;&MENUDOWN; Cambiar dificultad   &SELECT; (Sostenida) Atajos
+AlternateHelpText=&SELECT;+&MENULEFT;&MENURIGHT; Change Difficulties &SELECT;+&START; Quick Sort
+SortLabel=Sort
+StageLabel=Ronda
+LongSong=Canción Larga
+MarathonSong=Maratón
+ChartStats=Chart Stats
+# NoAuthor can remain the same.
+HighScore=Alta Puntuación
+ChangeDifficulty=&MENULEFT;&MENURIGHT; Cambiar dificultad
+ChangeSort=&START; Cambiar filtro
+
+# Time to manage each screen's options
+[ScreenSelectStyle]
+HelpText=&BACK; Regresar &START; Seleccionar &MENULEFT;&MENURIGHT; Mover
+# HeaderSubText does not need translation, we don't even use it.
+

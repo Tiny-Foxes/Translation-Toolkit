@@ -12,6 +12,11 @@ namespace TranslationToolKit.DataModel
     public class Section : IEnumerable<KeyValuePair<Header, Line>>
     {
         /// <summary>
+        /// The comment on top of a section
+        /// </summary>
+        public string SectionComment { get; set; }
+
+        /// <summary>
         /// Title of the section. Ex: [ScreenPracticeMenu]
         /// </summary>
         public string Title { get; set; }
@@ -30,6 +35,7 @@ namespace TranslationToolKit.DataModel
         public Section()
         {
             Title = "";
+            SectionComment = "";
             Lines = new SortedDictionary<Header, Line>();
         }
 

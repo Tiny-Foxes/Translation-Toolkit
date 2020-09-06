@@ -17,15 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Output\Expected\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\TranslationToolKit\TranslationToolKit.csproj" />
-    <None Update="Input\*\*.*">
+    <None Update="Input\**\*.*">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-        <None Update="Output\*\*.*">
+        <None Update="Output\**\*.*">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

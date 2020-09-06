@@ -32,6 +32,8 @@ namespace TranslationToolKit
         {
             var result = new ParsedFile();
 
+            var parser = new SectionParser();
+
             if(fileLines.Count == 0)
             {
                 return result;
@@ -58,7 +60,7 @@ namespace TranslationToolKit
                 {
                     if (currentSection.Count != 0)
                     {
-                        section = SectionParser.ParseSection(currentSection);
+                        section = parser.ParseSection(currentSection);
                         result.AddSection(section, index++);
                     }                    
                     currentSection = new List<string>() { line };
@@ -77,7 +79,7 @@ namespace TranslationToolKit
             // Finish up with the last section
             if (currentSection.Count != 0)
             {
-                section = SectionParser.ParseSection(currentSection);
+                section = parser.ParseSection(currentSection);
                 result.AddSection(section, index++);
             }
             return result;

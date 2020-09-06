@@ -54,9 +54,9 @@ namespace TranslationToolKit.Tests.Helper
         [Fact]
         public void BasicTests()
         {
-            Assert.True(FileComparer.AreFilesIdentical(".\\Input\\FileWriter\\en-fallback.ini", ".\\Input\\FileWriter\\en-fallback.ini"));
-            Assert.False(FileComparer.AreFilesIdentical(".\\Input\\FileWriter\\en-default.ini", ".\\Input\\FileWriter\\en-fallback.ini"));
-            Assert.False(FileComparer.AreFilesIdentical(".\\Input\\FileWriter\\en-fallback.ini", ".\\Input\\FileWriter\\en-fallback-withwrongendoflines.ini"));
+            Assert.True(FileComparer.AreFilesIdentical(".\\Input\\FileWriter\\FileComparer\\en-fallback.ini", ".\\Input\\FileWriter\\FileComparer\\en-fallback.ini"));
+            Assert.False(FileComparer.AreFilesIdentical(".\\Input\\FileWriter\\FileComparer\\en-default.ini", ".\\Input\\FileWriter\\FileComparer\\en-fallback.ini"));
+            Assert.False(FileComparer.AreFilesIdentical(".\\Input\\FileWriter\\FileComparer\\en-fallback.ini", ".\\Input\\FileWriter\\FileComparer\\en-fallback-withwrongendoflines.ini"));
         } 
     }
 }

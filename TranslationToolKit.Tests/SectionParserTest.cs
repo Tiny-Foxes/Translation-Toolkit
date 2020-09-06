@@ -13,7 +13,7 @@ namespace TranslationToolKit.Tests
         public void WhenProvidingWithAListOfLinesThenTheDictionaryKeysWillBeTheLinesKeysAndTheOccurenceIndex()
         {
             var lines = File.ReadAllLines(".\\Input\\SectionParser\\BasicSection.txt").ToList();
-            var section = SectionParser.ParseSection(lines);
+            var section = new SectionParser().ParseSection(lines);
 
             Assert.NotNull(section);
 
@@ -29,7 +29,7 @@ namespace TranslationToolKit.Tests
         {
             var lines = File.ReadAllLines(".\\Input\\SectionParser\\BasicSection.txt").ToList();
 
-            var section = SectionParser.ParseSection(lines);
+            var section = new SectionParser().ParseSection(lines);
 
             Assert.NotNull(section);
             Assert.Equal("[ScreenTitleMenu]", section.Title);
@@ -56,7 +56,7 @@ namespace TranslationToolKit.Tests
         {
             var lines = File.ReadAllLines(".\\Input\\SectionParser\\BasicSection.txt").ToList();
 
-            var section = SectionParser.ParseSection(lines);
+            var section = new SectionParser().ParseSection(lines);
 
             Assert.NotNull(section);
             Assert.Equal("[ScreenTitleMenu]", section.Title);
@@ -80,7 +80,7 @@ namespace TranslationToolKit.Tests
         [Fact]
         public void WhenProvidedWithAnEmptyOrNullListThenThrowsAnException()
         {
-            var exception = Assert.Throws<ArgumentException>(() => SectionParser.ParseSection(new List<string>()));
+            var exception = Assert.Throws<ArgumentException>(() => new SectionParser().ParseSection(new List<string>()));
             Assert.Equal("Tried to parse section but provided lines list is empty (Parameter 'lines')", exception.Message);
         }
 
@@ -89,7 +89,7 @@ namespace TranslationToolKit.Tests
         {
             var lines = File.ReadAllLines(".\\Input\\SectionParser\\NoTitle.txt").ToList();
 
-            var exception = Assert.Throws<ArgumentException>(() => SectionParser.ParseSection(lines));
+            var exception = Assert.Throws<ArgumentException>(() => new SectionParser().ParseSection(lines));
             Assert.Equal("Tried to parse section but no section title found (Parameter 'lines')", exception.Message);
         }
 
@@ -98,7 +98,7 @@ namespace TranslationToolKit.Tests
         {
             var lines = File.ReadAllLines(".\\Input\\SectionParser\\BasicSectionWithAddedWhiteLines.txt").ToList();
 
-            var section = SectionParser.ParseSection(lines);
+            var section = new SectionParser().ParseSection(lines);
             Assert.Equal("[ScreenTitleMenu]", section.Title);
         }
 
@@ -107,7 +107,7 @@ namespace TranslationToolKit.Tests
         {
             var lines = File.ReadAllLines(".\\Input\\SectionParser\\BasicSectionWithAddedWhiteLines.txt").ToList();
 
-            var section = SectionParser.ParseSection(lines);
+            var section = new SectionParser().ParseSection(lines);
 
             Assert.NotNull(section);
             Assert.Equal("[ScreenTitleMenu]", section.Title);
@@ -134,7 +134,7 @@ namespace TranslationToolKit.Tests
         {
             var lines = File.ReadAllLines(".\\Input\\SectionParser\\BasicSectionWithAddedWhiteLinesAtTheEnd.txt").ToList();
 
-            var section = SectionParser.ParseSection(lines);
+            var section = new SectionParser().ParseSection(lines);
 
             Assert.NotNull(section);
             Assert.Equal("[ScreenTitleMenu]", section.Title);
@@ -164,7 +164,7 @@ namespace TranslationToolKit.Tests
         {
             var lines = File.ReadAllLines(".\\Input\\SectionParser\\SectionWithDuplicate.txt").ToList();
 
-            var section = SectionParser.ParseSection(lines);
+            var section = new SectionParser().ParseSection(lines);
 
             Assert.NotNull(section);
             Assert.Equal("[ScreenEvaluation]", section.Title);
@@ -190,7 +190,7 @@ namespace TranslationToolKit.Tests
         {
             var lines = File.ReadAllLines(".\\Input\\SectionParser\\SectionWithComments.txt").ToList();
 
-            var section = SectionParser.ParseSection(lines);
+            var section = new SectionParser().ParseSection(lines);
 
             Assert.NotNull(section);
             Assert.Equal("[ScreenTestFonts]", section.Title);
@@ -212,7 +212,7 @@ namespace TranslationToolKit.Tests
         {
             var lines = File.ReadAllLines(".\\Input\\SectionParser\\SectionWithVariousTypesOfComment.txt").ToList();
 
-            var section = SectionParser.ParseSection(lines);
+            var section = new SectionParser().ParseSection(lines);
 
             Assert.NotNull(section);
             Assert.Equal("[CustomDifficulty]", section.Title);
@@ -234,7 +234,7 @@ namespace TranslationToolKit.Tests
         {
             var lines = File.ReadAllLines(".\\Input\\SectionParser\\SectionWithEmptyLine.txt").ToList();
 
-            var section = SectionParser.ParseSection(lines);
+            var section = new SectionParser().ParseSection(lines);
 
             Assert.NotNull(section);
             Assert.Equal("[ScreenPracticeMenu]", section.Title);
@@ -258,7 +258,7 @@ namespace TranslationToolKit.Tests
         {
             var lines = File.ReadAllLines(".\\Input\\SectionParser\\SectionWithCommentAtTheEnd.txt").ToList();
 
-            var section = SectionParser.ParseSection(lines);
+            var section = new SectionParser().ParseSection(lines);
             Assert.Equal(9, section.Count);
             Assert.Equal("[OptionTitles]", section.Title);
             foreach (var header in section.Keys)
