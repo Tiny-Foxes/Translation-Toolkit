@@ -6,7 +6,8 @@ namespace TranslationToolKit
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var consoleRunner = new ConsoleRunner();
+            consoleRunner.Run();
         }
     }
 }

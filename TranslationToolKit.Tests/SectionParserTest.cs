@@ -39,7 +39,7 @@ namespace TranslationToolKit.Tests
                 Assert.Equal(header.HeaderKey, section[header].TranslationKey);
             }
             var index = 0;
-            Assert.Equal(new Line("Fitness", "Fitness Mode"), section[new Header("Fitness",0, index++)]);
+            Assert.Equal(new Line("Fitness", "Fitness Mode"), section[new Header("Fitness", 0, index++)]);
             Assert.Equal(new Line("HelpText", "&BACK; Exit &START; Select &MENUUP;&MENUDOWN; Move"), section[new Header("HelpText", 0, index++)]);
             Assert.Equal(new Line("Network OK", "Network OK"), section[new Header("Network OK", 0, index++)]);
             Assert.Equal(new Line("Offline", "Offline"), section[new Header("Offline", 0, index++)]);
@@ -183,7 +183,7 @@ namespace TranslationToolKit.Tests
             Assert.Equal(1, header21.OccurenceIndex);
             Assert.Equal(21, header21.Index);
         }
-            
+
 
         [Fact]
         public void WhenProvidedWithCommentsThenTheyAreAddedToTheNextLine()
@@ -208,6 +208,28 @@ namespace TranslationToolKit.Tests
         }
 
         [Fact]
+        public void WhenProvidedWithSlashSlashCommentsThenTheyAreAddedToTheNextLine()
+        {
+            var lines = File.ReadAllLines(".\\Input\\SectionParser\\SectionWithVariousTypesOfComment.txt").ToList();
+
+            var section = SectionParser.ParseSection(lines);
+
+            Assert.NotNull(section);
+            Assert.Equal("[CustomDifficulty]", section.Title);
+            Assert.Equal(14, section.Count);
+            foreach (var header in section.Keys)
+            {
+                Assert.Equal(header.HeaderKey, section[header].TranslationKey);
+            }
+            Assert.Equal(new Line("Beginner", "Novice", "// いじるとバグりそう"), section[0]);
+            Assert.Equal(new Line("Easy", "Easy"), section[1]);
+            Assert.Equal(new Line("Freestyle", "Freestyle", "#"), section[8]);
+            Assert.Equal(new Line("Challenge", "Expert", $"; Put all help text in this one group and have metrics look up the strings here.  That will help make sure\n; that strings are in a consistent style and that strings aren't duplicated."), section[4]);
+            Assert.Equal(new Line("", "", "# Test comment"), section[10]);
+            Assert.Equal(new Line("", "", ""), section[11]);
+        }
+
+        [Fact]
         public void WhenProvidedWithEmptyLineThenTheyAreAddedToTheSection()
         {
             var lines = File.ReadAllLines(".\\Input\\SectionParser\\SectionWithEmptyLine.txt").ToList();
@@ -229,6 +251,21 @@ namespace TranslationToolKit.Tests
             Assert.Equal(new Line("ExplanationAction", "Press Start to practice!"), section[new Header("ExplanationAction", 0, index++)]);
             Assert.Equal(new Line("ExplanationStepsType", "Select the StepsType you want to practice."), section[new Header("ExplanationStepsType", 0, index++)]);
             Assert.Equal(new Line("ExplanationSteps", "Select a notechart."), section[new Header("ExplanationSteps", 0, index++)]);
+        }
+
+        [Fact]
+        public void WhenThereIsACommentAtTheEndOfTheSectionItIsAdded()
+        {
+            var lines = File.ReadAllLines(".\\Input\\SectionParser\\SectionWithCommentAtTheEnd.txt").ToList();
+
+            var section = SectionParser.ParseSection(lines);
+            Assert.Equal(9, section.Count);
+            Assert.Equal("[OptionTitles]", section.Title);
+            foreach (var header in section.Keys)
+            {
+                Assert.Equal(header.HeaderKey, section[header].TranslationKey);
+            }
+            Assert.Equal(new Line("", "", "#"), section[8]);
         }
     }
 }

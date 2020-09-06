@@ -1,0 +1,11 @@
+﻿[OptionTitles]
+GameplayBPM=Gameplay BPM Display
+CurrentStageLocation=Dancing Stage
+StatsPane=Stats panel
+VideoRenderer=Video renderer
+NoteFieldLength=NoteField Length
+experimentNPSDiagram=AFT Notes Per Second Diagram
+SoundwavesSubTheme=Color scheme
+ScreenFilterColor=Screen filter color
+#
+

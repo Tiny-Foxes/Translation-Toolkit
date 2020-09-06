@@ -10,12 +10,22 @@ namespace TranslationToolKit.DataModel
     public class ParsedFile : IEnumerable<KeyValuePair<Header, Section>>
     {
         /// <summary>
+        /// If there is text before the first section, we consider that to be a header
+        /// and we store it separately.
+        /// </summary>
+        public string FileHeader { get; set;  }
+
+        /// <summary>
         /// List of all sections in the file
         /// </summary>
         private SortedDictionary<Header, Section> Sections { get; }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public ParsedFile()
         {
+            FileHeader = "";
             Sections = new SortedDictionary<Header, Section>();
         }
 

@@ -50,12 +50,17 @@ namespace TranslationToolKit
         {
             if (string.IsNullOrWhiteSpace(line))
             {
-                section.AddEmptyLine(currentIndex++);
+                section.AddEmptyLine(currentIndex++, comment);
+                comment = "";
                 return;
             }
-            if (line.StartsWith("#"))
+            if (line.StartsWith("#") || line.StartsWith("//") || line.StartsWith(";"))
             {
                 // Note: we don't increment index on comments because comments are added as part of the line they comment.
+                if(comment.Length != 0)
+                {
+                    comment += EnvironmentConstants.EndOfLine;
+                }
                 comment += line;
                 return;
             }

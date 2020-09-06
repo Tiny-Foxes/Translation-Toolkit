@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using Xunit;
 using System.Collections.Generic;
 
@@ -81,6 +81,16 @@ namespace TranslationToolKit.Tests
             var result = FileParser.ProcessFileIntoSections(lines);
             Assert.NotNull(result);
             Assert.Equal(expectedSectionCount, result.Count);
+        }
+
+
+        [Fact]
+        public void WhenThereIsTextAtTheStartOfAFileThenItIsAddedAsAHeader()
+        {
+            var result = FileParser.ProcessFileIntoSections($".\\Input\\FileParser\\ja-fallback-WithHeader.ini");
+            Assert.NotNull(result);
+            Assert.NotNull(result.FileHeader);
+            Assert.Equal($"// Stepmania用日本語言語パック(fallback用) Ver.2-20150411{EnvironmentConstants.EndOfLine}{EnvironmentConstants.EndOfLine}// 翻訳終わった部分には済マーク入れます{EnvironmentConstants.EndOfLine}// 5.0.7の追加オプションの説明を追加{EnvironmentConstants.EndOfLine}// BGはもう少しお待ちください{EnvironmentConstants.EndOfLine}{EnvironmentConstants.EndOfLine}// find_missing_strings_in_theme_translationsで無かった分を補完 -hanubeki 2015/04/14{EnvironmentConstants.EndOfLine}// New-Options-menu向けに翻訳を追加 -hanubeki 2015/04/24{EnvironmentConstants.EndOfLine}// 5.3 OutFox向けに翻訳を追加 -hanubeki 2020/02/11{EnvironmentConstants.EndOfLine}{EnvironmentConstants.EndOfLine}", result.FileHeader);
         }
     }
 }

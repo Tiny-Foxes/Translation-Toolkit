@@ -66,5 +66,19 @@ namespace TranslationToolKit.Tests.DataModel
             Assert.False(expected.Equals(testObject));
             Assert.False(expected.Equals(testObjectNull));
         }
+
+        [Theory]
+        [InlineData("","","","")]
+        [InlineData("","ddsdsd", "", "")]
+        [InlineData("", "ddsdsd", "# Left voluntarily empty", "# Left voluntarily empty\n")]
+        [InlineData("", "ddsdsd", "#", "#\n")]
+        [InlineData("title", "value", "# comment", "# comment\ntitle=value")]
+        [InlineData("title", "value", "// comment", "// comment\ntitle=value")]
+        [InlineData("title", "", "// comment", "// comment\ntitle=")]
+        public void DisplayStringTest(string title, string value, string comment, string expected)
+        {
+            var line = new Line(title, value, comment);
+            Assert.Equal(expected, line.DisplayString);
+        }
     }
 }

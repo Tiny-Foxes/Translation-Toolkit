@@ -1,0 +1,20 @@
+﻿[CustomDifficulty]
+// いじるとバグりそう
+Beginner=Novice
+Easy=Easy
+Medium=Medium
+Hard=Hard
+; Put all help text in this one group and have metrics look up the strings here.  That will help make sure
+; that strings are in a consistent style and that strings aren't duplicated.
+Challenge=Expert
+Edit=Edit
+Couple=Couple
+Routine=Routine
+#
+Freestyle=Freestyle
+Crazy=Crazy
+# Test comment
+
+
+Nightmare=Nightmare
+HalfDouble=Half-Double

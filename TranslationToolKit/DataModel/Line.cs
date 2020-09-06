@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace TranslationToolKit.DataModel
 {
@@ -48,14 +49,37 @@ namespace TranslationToolKit.DataModel
             Comment = comment;
         }
 
+        /// <summary>
+        /// returns a proper representation of the line, ready to be displayed/written.
+        /// </summary>
+        /// <returns></returns>
+        public string DisplayString
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(TranslationKey))
+                {
+                    if (string.IsNullOrEmpty(Comment))
+                    {
+                        return string.Empty;
+                    }
+                    else
+                    {
+                        return $"{Comment}{EnvironmentConstants.EndOfLine}";
+                    }
+                }
+                if (string.IsNullOrEmpty(Comment))
+                {
+                    return $"{TranslationKey}={TranslatedValue}";
+                }
+                return $"{Comment}{EnvironmentConstants.EndOfLine}{TranslationKey}={TranslatedValue}";
+            }
+        }
+
         /// <inheritdoc />
         public override string ToString()
         {
-            if(string.IsNullOrEmpty(Comment))
-            {
-                return $"{TranslationKey}={TranslatedValue}";
-            }
-            return $"{Comment}\n{TranslationKey}={TranslatedValue}";
+            return DisplayString;
         }
 
         /// <inheritdoc />

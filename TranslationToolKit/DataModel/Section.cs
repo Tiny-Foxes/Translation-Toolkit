@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace TranslationToolKit.DataModel
 {
@@ -37,10 +38,10 @@ namespace TranslationToolKit.DataModel
         /// so we can retranscribe it later on (translation sections may be divided in blocks)
         /// </summary>
         /// <param name="index">index of this line within the section</param>
-        public void AddEmptyLine(int index)
+        public void AddEmptyLine(int index, string comment)
         {
             var header = new Header("", EmptyLineOccurences, index);
-            Lines.Add(header, new Line(string.Empty, string.Empty));
+            Lines.Add(header, new Line(string.Empty, string.Empty, comment));
         }
 
         /// <summary>
