@@ -42,7 +42,7 @@ namespace TranslationToolKit.FileProcessing.DataModel
                 occurenceIndex = Sections.Where(x => x.Key.HeaderKey.Equals(section.Title))
                                       .Max(x => x.Key.OccurenceIndex);
             }
-            Sections.Add(new Header(section.Title, 0, index), section);
+            Sections.Add(new Header(section.Title, occurenceIndex+1, index), section);
         }
 
         #region Implementing various interfaces to allow checking the data, but not modifying list without using the proper add methods.

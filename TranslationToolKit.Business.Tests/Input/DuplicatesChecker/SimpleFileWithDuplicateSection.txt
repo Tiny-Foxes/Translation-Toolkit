@@ -1,0 +1,29 @@
+﻿[ScreenSetBGFit]
+SubHeaderText=This is a sub-header
+
+[OptionNames]
+swClassic=Standard
+swVaporwave=Vaporwave
+swGrass=Grass
+swRetro=CincoCero
+DetailedStats=Detailed Stats
+swFire=Fuego
+
+
+OptionMain=Main Options
+OptionSpecial=Additional Options
+OptionSong=Gameplay
+OptionSelectMusic=Return to Music Selection
+OptionEffects=Effects
+
+DarkPlayerScreenFilter=Dark (player-colored)
+DarkScreenFilter=Black
+LightScreenFilter=White
+LightPlayerScreenFilter=Light (player-colored)
+GrayScreenFilter=Gray
+
+MSTiming=Show Millisecond Timing
+OffsetBar=Show Offset Bar
+
+[ScreenSetBGFit]
+HeaderText=Background fit modes

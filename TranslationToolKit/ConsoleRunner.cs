@@ -124,9 +124,11 @@ namespace TranslationToolKit
             } while (error != "");
 
             bool proceed = AskYesNoQuestion($"Do you want to run the duplicates checker on the following file{Environment.NewLine}{path}{Environment.NewLine}");
-            if(proceed)
+            Console.ForegroundColor = OriginalColor;
+            if (proceed)
             {
-                checker.RunAnalyzer(path);
+                var report = checker.RunAnalyzer(path);
+                Console.WriteLine(report.GetDisplayString());
             }
             return;
         }

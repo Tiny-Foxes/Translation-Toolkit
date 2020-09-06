@@ -2,6 +2,7 @@
 using Xunit;
 using System.Collections.Generic;
 using TranslationToolKit.FileProcessing.DataModel;
+using System.Linq;
 
 namespace TranslationToolKit.FileProcessing.Tests
 {
@@ -108,6 +109,23 @@ namespace TranslationToolKit.FileProcessing.Tests
             Assert.Equal("# Time to manage each screen's options", result[1].SectionComment);
             Assert.Equal(new Line("HelpText", "&BACK; Regresar &START; Seleccionar &MENULEFT;&MENURIGHT; Mover", ""), result[1][0]);
             Assert.Equal(new Line("", "", "# HeaderSubText does not need translation, we don't even use it."), result[1][1]);
+        }
+
+        [Fact]
+        public void WhenThereAreDuplicateSectionsThenTheOccurenceIndexIsIncreased()
+        {
+            var result = FileParser.ProcessFileIntoSections($".\\Input\\FileParser\\SimpleFileWithDuplicateSection.txt");
+
+            Assert.NotNull(result);
+            Assert.Equal(3, result.Count);
+            var list = result.Keys.ToList();
+            Assert.Equal(0, list[0].OccurenceIndex);
+            Assert.Equal(0, list[1].OccurenceIndex);
+            Assert.Equal(1, list[2].OccurenceIndex);
+
+            Assert.Equal("[ScreenSetBGFit]", result[0].Title);
+            Assert.Equal("[OptionNames]", result[1].Title);
+            Assert.Equal("[ScreenSetBGFit]", result[2].Title);
         }
     }
 }
