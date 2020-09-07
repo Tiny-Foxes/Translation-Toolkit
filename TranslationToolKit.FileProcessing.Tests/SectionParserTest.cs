@@ -131,7 +131,7 @@ namespace TranslationToolKit.FileProcessing.Tests
 
 
         [Fact]
-        public void WhenProvidedWithASectionWithAddedWhiteLinesAtTheEndThenWhiteLinesAreAddedToTheList()
+        public void WhenProvidedWithASectionWithAddedWhiteLinesAtTheEndThenWhiteLinesAreAddedAsASuffix()
         {
             var lines = File.ReadAllLines(".\\Input\\SectionParser\\BasicSectionWithAddedWhiteLinesAtTheEnd.txt").ToList();
 
@@ -139,7 +139,7 @@ namespace TranslationToolKit.FileProcessing.Tests
 
             Assert.NotNull(section);
             Assert.Equal("[ScreenTitleMenu]", section.Title);
-            Assert.Equal(13, section.Count);
+            Assert.Equal(9, section.Count);
             foreach (var header in section.Keys)
             {
                 Assert.Equal(header.HeaderKey, section[header].TranslationKey);
@@ -154,10 +154,7 @@ namespace TranslationToolKit.FileProcessing.Tests
             Assert.Equal(new Line("LifeDifficulty", "Life Difficulty"), section[new Header("LifeDifficulty", 0, index++)]);
             Assert.Equal(new Line("TimingDifficulty", "Timing Difficulty"), section[new Header("TimingDifficulty", 0, index++)]);
             Assert.Equal(new Line("%i Songs (%i Groups), %i Courses", "%i Songs (%i Groups), %i Courses"), section[new Header("%i Songs (%i Groups), %i Courses", 0, index++)]);
-            Assert.Equal(new Line("", ""), section[new Header("", 0, index++)]);
-            Assert.Equal(new Line("", ""), section[new Header("", 1, index++)]);
-            Assert.Equal(new Line("", ""), section[new Header("", 2, index++)]);
-            Assert.Equal(new Line("", ""), section[new Header("", 3, index++)]);
+            Assert.Equal($"\n\n\n\n", section.SectionSuffix);
         }
 
         [Fact]
@@ -255,18 +252,18 @@ namespace TranslationToolKit.FileProcessing.Tests
         }
 
         [Fact]
-        public void WhenThereIsACommentAtTheEndOfTheSectionItIsAdded()
+        public void WhenThereIsACommentAtTheEndOfTheSectionItIsAddedInTheSectionSuffix()
         {
             var lines = File.ReadAllLines(".\\Input\\SectionParser\\SectionWithCommentAtTheEnd.txt").ToList();
 
             var section = new SectionParser().ParseSection(lines);
-            Assert.Equal(9, section.Count);
+            Assert.Equal(8, section.Count);
             Assert.Equal("[OptionTitles]", section.Title);
             foreach (var header in section.Keys)
             {
                 Assert.Equal(header.HeaderKey, section[header].TranslationKey);
             }
-            Assert.Equal(new Line("", "", "#"), section[8]);
+            Assert.Equal($"#\n\n", section.SectionSuffix);
         }
     }
 }

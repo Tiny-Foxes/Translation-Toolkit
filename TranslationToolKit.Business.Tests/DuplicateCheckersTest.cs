@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using TranslationToolKit.FileProcessing.Tests.Helper;
 using Xunit;
 
 namespace TranslationToolKit.Business.Tests
@@ -101,6 +102,60 @@ namespace TranslationToolKit.Business.Tests
             Assert.Equal("[NativeLanguageNames]", report.DuplicatedLines[1].Key);
             Assert.Equal("Yiddish", report.DuplicatedLines[2].Value);
             Assert.Equal("[NativeLanguageNames]", report.DuplicatedLines[2].Key);
+        }
+
+        [Theory]
+        [InlineData(".\\Input\\DuplicatesChecker\\en-fallback.ini.generated", ".\\Input\\DuplicatesChecker\\en-fallback.ini", ".\\Output\\Expected\\DuplicatesChecker\\en-fallback.ini")]
+        [InlineData(".\\Input\\DuplicatesChecker\\en-default.ini.generated", ".\\Input\\DuplicatesChecker\\en-default.ini", ".\\Output\\Expected\\DuplicatesChecker\\en-default.ini")]
+        public void WhenProvidedWithAFileWithDuplicateThenRemoveDuplicatesCreateANewFileWithoutDuplicates(string generatedFile, string input, string expected)
+        {
+            try
+            {
+                // Prepare
+                if (File.Exists(generatedFile))
+                {
+                    File.Delete(generatedFile);
+                }
+                string path = input;
+                var checker = new DuplicatesChecker();
+                checker.RunAnalyzer(path);
+
+                // Test
+                var resultPath = checker.RemoveDuplicates();
+
+                // Validate
+                Assert.Equal(generatedFile, resultPath);
+
+                Assert.True(FileComparer.AreFilesIdentical(expected, resultPath));
+            }
+            finally
+            {
+                // Comment this if you need to debug this unit test and check the result
+                //if (File.Exists(generatedFile))
+                //{
+                //    File.Delete(generatedFile);
+                //}
+            }
+        }
+
+        [Fact]
+        public void WhenProvidedWithAFileWithNoDuplicateThenRemoveDuplicatesDoesntDoAnything()
+        {
+            string path = ".\\Output\\Expected\\DuplicatesChecker\\en-fallback.ini";
+            var checker = new DuplicatesChecker();
+            checker.RunAnalyzer(path);
+
+            var resultPath = checker.RemoveDuplicates();
+            Assert.Equal("", resultPath);
+        }
+
+        [Fact]
+        public void WhenRemoveDuplicatesIsCalledBeforeAnalyzerThenThrowsAnException()
+        {
+            var checker = new DuplicatesChecker();
+
+            var result = Assert.Throws<ArgumentException>(() => checker.RemoveDuplicates());
+            Assert.Equal("Report is empty, please run the analyzer first", result.Message);
         }
     }
 }

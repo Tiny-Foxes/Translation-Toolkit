@@ -23,13 +23,17 @@ namespace TranslationToolKit.FileProcessing.Tests
             }
 
             Assert.Equal("[Common]", result[0].Title);
-            Assert.Equal(8, result[0].Count);
+            Assert.Equal(7, result[0].Count);
+            Assert.Equal("\n", result[0].SectionSuffix);
             Assert.Equal("[Screen]", result[1].Title);
-            Assert.Equal(2, result[1].Count);
+            Assert.Equal(1, result[1].Count);
+            Assert.Equal("\n", result[1].SectionSuffix);
             Assert.Equal("[ScreenWithMenuElements]", result[2].Title);
-            Assert.Equal(4, result[2].Count);
+            Assert.Equal(3, result[2].Count);
+            Assert.Equal("\n", result[2].SectionSuffix);
             Assert.Equal("[ScreenTitleMenu]", result[3].Title);
             Assert.Equal(9, result[3].Count);
+            Assert.Equal("", result[3].SectionSuffix);
         }
 
         [Fact]
@@ -47,13 +51,17 @@ namespace TranslationToolKit.FileProcessing.Tests
             }
 
             Assert.Equal("[Common]", result[0].Title);
-            Assert.Equal(8, result[0].Count);
+            Assert.Equal(7, result[0].Count);
+            Assert.Equal("\n", result[0].SectionSuffix);
             Assert.Equal("[Screen]", result[1].Title);
-            Assert.Equal(2, result[1].Count);
+            Assert.Equal(1, result[1].Count);
+            Assert.Equal("\n", result[1].SectionSuffix);
             Assert.Equal("[ScreenWithMenuElements]", result[2].Title);
-            Assert.Equal(4, result[2].Count);
+            Assert.Equal(3, result[2].Count);
+            Assert.Equal("\n", result[2].SectionSuffix);
             Assert.Equal("[ScreenTitleMenu]", result[3].Title);
-            Assert.Equal(11, result[3].Count);
+            Assert.Equal(9, result[3].Count);
+            Assert.Equal("\n\n", result[3].SectionSuffix);
         }
 
         [Fact]
@@ -102,13 +110,13 @@ namespace TranslationToolKit.FileProcessing.Tests
             Assert.NotNull(result);
             Assert.Equal(2, result.Count);
 
-            Assert.Equal(15, result[0].Count);
-            Assert.Equal(new Line("", "", ""), result[0][14]);
+            Assert.Equal(14, result[0].Count);
+            Assert.Equal("\n", result[0].SectionSuffix);
 
-            Assert.Equal(2, result[1].Count);
+            Assert.Equal(1, result[1].Count);
             Assert.Equal("# Time to manage each screen's options", result[1].SectionComment);
             Assert.Equal(new Line("HelpText", "&BACK; Regresar &START; Seleccionar &MENULEFT;&MENURIGHT; Mover", ""), result[1][0]);
-            Assert.Equal(new Line("", "", "# HeaderSubText does not need translation, we don't even use it."), result[1][1]);
+            Assert.Equal("# HeaderSubText does not need translation, we don't even use it.\n\n", result[1].SectionSuffix);
         }
 
         [Fact]

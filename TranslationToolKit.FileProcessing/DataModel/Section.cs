@@ -17,6 +17,11 @@ namespace TranslationToolKit.FileProcessing.DataModel
         public string SectionComment { get; set; }
 
         /// <summary>
+        /// Suffix is any empty line after the section, with any potential comment.
+        /// </summary>
+        public string SectionSuffix { get; set; }
+
+        /// <summary>
         /// Title of the section. Ex: [ScreenPracticeMenu]
         /// </summary>
         public string Title { get; set; }
@@ -64,6 +69,31 @@ namespace TranslationToolKit.FileProcessing.DataModel
                                       .Max(x => x.Key.OccurenceIndex);
             }
             Lines.Add(new Header(line.TranslationKey, ++occurenceIndex, index), line);
+        }
+
+        /// <summary>
+        /// Remove the last empty lines, and add that to the suffix.
+        /// </summary>
+        public void CalculateSectionSuffix()
+        {
+            var builder = new StringBuilder();
+            if(!Lines.Any(x => x.Key.HeaderKey != ""))
+            {
+                return;
+            }
+
+            var lastValueIndex = Lines.Last(x => x.Key.HeaderKey != "").Key.Index;
+            if(lastValueIndex + 1 < Lines.Count)
+            {
+                var currentTotal = Lines.Count;
+                for (int i = lastValueIndex + 1; i < currentTotal; i++)
+                {
+                    builder.Append(this[i].DisplayString);
+                    builder.Append(EnvironmentConstants.EndOfLine);
+                    Lines.Remove(Header.GetIndex(i));
+                }
+            }
+            SectionSuffix = builder.ToString();
         }
 
         #region Implementing various interfaces to allow checking the data, but not modifying list without using the proper add methods.

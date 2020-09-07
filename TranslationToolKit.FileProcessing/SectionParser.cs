@@ -44,7 +44,7 @@ namespace TranslationToolKit.FileProcessing
             {
                 ProcessLine(line.TrimStart(), section, ref currentIndex, ref comment);
             }
-
+            section.CalculateSectionSuffix();
             ExtraneousComment = comment;
 
             return section;

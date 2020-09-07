@@ -27,18 +27,25 @@ namespace TranslationToolKit.FileProcessing
                 {                    
                     var section = sectionData.Value;
 
+                    // Header
                     if(section.SectionComment != string.Empty)
                     {
                         writer.Write(section.SectionComment);
                         writer.Write(EnvironmentConstants.EndOfLine);
                     }
+                    // Title
                     writer.Write(section.Title);
                     writer.Write(EnvironmentConstants.EndOfLine);
-
+                    // Lines
                     foreach (var lineData in section)
                     {
                         writer.Write(lineData.Value.DisplayString);
                         writer.Write(EnvironmentConstants.EndOfLine);
+                    }
+                    // Suffix
+                    if (section.SectionSuffix != string.Empty)
+                    {
+                        writer.Write(section.SectionSuffix);
                     }
                 }
             }
