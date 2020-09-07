@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TranslationToolKit.FileProcessing\TranslationToolKit.FileProcessing.csproj" />
+    <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
-using TranslationToolKit.FileProcessing;
 
 namespace TranslationToolKit.Business.DataModel
 {

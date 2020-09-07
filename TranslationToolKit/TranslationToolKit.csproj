@@ -4,10 +4,27 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Nullable>disable</Nullable>
+    <Authors>Tiny-Foxes</Authors>
+    <Company />
+    <Version>0.1</Version>
+    <Description>A Toolkit to ease StepMania translation</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageId>TranslationToolkit</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TranslationToolKit.Business\TranslationToolKit.Business.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
