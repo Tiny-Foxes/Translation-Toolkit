@@ -67,10 +67,25 @@ namespace TranslationToolKit.Business
                                                     .Distinct()
                                                     .ToList();
 
+            //foreach(var section in Report.DuplicatedSections)
+            //{
+            //    var sections = parsedFile.Where(x => x.Value.Title == section)
+            //        .Select(x => x.Value);
+
+            //    var duplicates = sections.SelectMany(x => x.Keys)
+            //                       .GroupBy(x => x.HeaderKey)
+            //                       .Where(g => g.Count() > 1)
+            //                       .Select(y => new KeyValuePair<string,string>(section,y.Key))
+            //                       .ToList();
+
+            //    Report.DuplicatedLinesInDuplicatedSections.AddRange(duplicates);
+            //}
+
             foreach(var pair in parsedFile)
             {
                 var section = pair.Value;
-                var duplicates = section.Where(x => x.Key.HeaderKey != string.Empty && x.Key.OccurenceIndex != 0)
+                var duplicates = section.Where(x => x.Key.HeaderKey != string.Empty 
+                                                    && x.Key.OccurenceIndex != 0)
                             .Select(x => x.Value.TranslationKey)
                             .Distinct()
                             .ToList();
