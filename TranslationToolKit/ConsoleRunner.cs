@@ -30,10 +30,7 @@ namespace TranslationToolKit
             {
                 Console.WriteLine("TranslationToolKit v0.1");
                 Console.WriteLine("");
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Welcome to the translator's toolkit for Outfox translation !");
-                Console.ForegroundColor = OriginalColor;
-                Console.WriteLine("");
+                ConsoleWrite("Welcome to the translator's toolkit for Outfox translation !", ConsoleColor.Green);
 
                 RunLoop();
 
@@ -70,9 +67,7 @@ namespace TranslationToolKit
                 }
                 catch (Exception e)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"Error while running command {command.ToString()}: {Environment.NewLine}{e}");
-                    Console.ForegroundColor = OriginalColor;
+                    ConsoleWrite($"Error while running command {command}: {Environment.NewLine}{e}", ConsoleColor.Red);
                 }
             } while (command != Commands.Quit);
         }
@@ -88,14 +83,13 @@ namespace TranslationToolKit
             Console.WriteLine("What do you want to do ?");
             Console.WriteLine("1- Duplicates checker");
             Console.WriteLine("0- Quit");
-
-            var parsed = false;
-            var command = Commands.Quit;
+            bool parsed;
+            Commands command;
             do
             {
                 var value = Console.ReadLine();
                 parsed = Enum.TryParse<Commands>(value, out command) && Enum.IsDefined(typeof(Commands), command);
-            } while(!parsed);
+            } while (!parsed);
 
             return command;
         }
@@ -107,15 +101,13 @@ namespace TranslationToolKit
         {
             var checker = new DuplicatesChecker();
 
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("");
-            Console.WriteLine("=== Duplicates checker ===");
-            Console.WriteLine("");
+            ConsoleWrite($"{Environment.NewLine}=== Duplicates checker ==={Environment.NewLine}", ConsoleColor.Green);
+
             string path;
             string error;
             do
             {
-                Console.WriteLine("Please enter the path to the file you want to check");
+                ConsoleWrite("Please enter the path to the file you want to check", ConsoleColor.Cyan);
                 path = Console.ReadLine();
                 if(!DuplicatesChecker.IsFileValid(path, out error))
                 {
@@ -123,12 +115,32 @@ namespace TranslationToolKit
                 }
             } while (error != "");
 
-            bool proceed = AskYesNoQuestion($"Do you want to run the duplicates checker on the following file{Environment.NewLine}{path}{Environment.NewLine}");
+            bool proceed = AskYesNoQuestion($"Do you want to run the duplicates checker on the following file{Environment.NewLine}{path}{Environment.NewLine}", ConsoleColor.Cyan);
             Console.ForegroundColor = OriginalColor;
             if (proceed)
             {
                 var report = checker.RunAnalyzer(path);
                 Console.WriteLine(report.GetDisplayString());
+                proceed = AskYesNoQuestion($"Duplicate found. Do you want to create a new file{Environment.NewLine}({report.FilePath}.generated){Environment.NewLine}without the duplicates", ConsoleColor.Yellow);
+                if(proceed)
+                {
+                    try
+                    {
+                        var resultPath = checker.RemoveDuplicates();
+                        if (resultPath != "")
+                        {
+                            ConsoleWrite($"File successful written at {resultPath}", ConsoleColor.Green);
+                        }
+                        else
+                        {
+                            ConsoleWrite("Unspecified error while trying to write file", ConsoleColor.Red);
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        ConsoleWrite($"Error while trying to create new file: {e}", ConsoleColor.Red);
+                    }
+                }
             }
             return;
         }
@@ -138,8 +150,9 @@ namespace TranslationToolKit
         /// </summary>
         /// <param name="ask">The question to ask, don't both adding the "?", it will be done for you.</param>
         /// <returns>true or false, depending on answer</returns>
-        private bool AskYesNoQuestion(string ask)
+        private bool AskYesNoQuestion(string ask, ConsoleColor color)
         {
+            Console.ForegroundColor = color;
             string answer;
             do
             {
@@ -150,6 +163,7 @@ namespace TranslationToolKit
                     && answer != "N"
                     && answer != "NO"
                     && answer != "YES");
+            Console.ForegroundColor = OriginalColor;
             return answer.Equals("Y") || answer.Equals("YES");
         }
 
@@ -166,6 +180,13 @@ namespace TranslationToolKit
                 Console.WriteLine($"ERROR: {error}");
                 Console.ForegroundColor = currentColor;
             }
+        }
+
+        private void ConsoleWrite(string lineToBeWritten, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine(lineToBeWritten);
+            Console.ForegroundColor = OriginalColor;
         }
     }
 }

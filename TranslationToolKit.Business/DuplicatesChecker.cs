@@ -101,6 +101,10 @@ namespace TranslationToolKit.Business
                 return "";
             }
             string newPath = $"{Report.FilePath}.generated";
+            if(File.Exists(newPath))
+            {
+                throw new ArgumentException($"File {newPath} already exists");
+            }
 
             var processedFile = ProcessDuplicates();
 
