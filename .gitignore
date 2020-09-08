@@ -10,3 +10,4 @@
 /TranslationToolKit.FileProcessing.Tests/bin/*
 /TranslationToolKit.FileProcessing.Tests/obj/*
 
+/Publish/**
