@@ -1,0 +1,11 @@
+/.vs/*
+/TranslationToolKit/obj/*
+/TranslationToolKit/bin/*
+/TranslationToolKit.Business/obj/*
+/TranslationToolKit.Business/bin/*
+/TranslationToolKit.Business.Tests/bin/*
+/TranslationToolKit.Business.Tests/obj/*
+/TranslationToolKit.FileProcessing/obj/*
+/TranslationToolKit.FileProcessing/bin/*
+/TranslationToolKit.FileProcessing.Tests/bin/*
+/TranslationToolKit.FileProcessing.Tests/obj/*
