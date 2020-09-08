@@ -144,7 +144,7 @@ namespace TranslationToolKit
                     return;
                 }
 
-                proceed = AskYesNoQuestion($"Duplicate found. Do you want to create a new file{Environment.NewLine}({report.FilePath}.generated){Environment.NewLine}without the duplicates", ConsoleColor.Yellow);
+                proceed = AskYesNoQuestion($"Duplicate(s) found. Do you want to create a new file{Environment.NewLine}({report.FilePath}.generated){Environment.NewLine}without the duplicates", ConsoleColor.Yellow);
                 if(proceed)
                 {
                     try
