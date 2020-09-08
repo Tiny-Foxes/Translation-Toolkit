@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using TranslationToolKit.Business;
 
@@ -28,7 +29,7 @@ namespace TranslationToolKit
             OriginalColor = Console.ForegroundColor;
             try
             {
-                Console.WriteLine("TranslationToolKit v0.1");
+                Console.WriteLine($"TranslationToolKit {GetAssemblyVersion()}");
                 Console.WriteLine("");
                 ConsoleWrite("Welcome to the translator's toolkit for Outfox translation !", ConsoleColor.Green);
 
@@ -41,6 +42,22 @@ namespace TranslationToolKit
             {
                 Console.ForegroundColor = OriginalColor;
             }
+        }
+
+        /// <summary>
+        /// Get the assembly version.
+        /// </summary>
+        /// <returns></returns>
+        public string GetAssemblyVersion()
+        {
+            var versionString = "0";
+            var version = Assembly.GetExecutingAssembly()?.GetName()?.Version;
+            if(version != null)
+            {
+                versionString = $"v{version.Major}.{version.Minor}.{version.Build}";
+            }
+            
+            return versionString;
         }
 
         /// <summary>
@@ -121,6 +138,12 @@ namespace TranslationToolKit
             {
                 var report = checker.RunAnalyzer(path);
                 Console.WriteLine(report.GetDisplayString());
+
+                if(report.DuplicatedLines.Count == 0 && report.DuplicatedSections.Count == 0)
+                {
+                    return;
+                }
+
                 proceed = AskYesNoQuestion($"Duplicate found. Do you want to create a new file{Environment.NewLine}({report.FilePath}.generated){Environment.NewLine}without the duplicates", ConsoleColor.Yellow);
                 if(proceed)
                 {
@@ -129,7 +152,7 @@ namespace TranslationToolKit
                         var resultPath = checker.RemoveDuplicates();
                         if (resultPath != "")
                         {
-                            ConsoleWrite($"File successful written at {resultPath}", ConsoleColor.Green);
+                            ConsoleWrite($"File successfully written at {resultPath}", ConsoleColor.Green);
                         }
                         else
                         {

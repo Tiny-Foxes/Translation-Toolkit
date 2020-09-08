@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using TranslationToolKit.Business.DataModel;
 using TranslationToolKit.FileProcessing;
 using TranslationToolKit.FileProcessing.DataModel;
@@ -64,7 +62,7 @@ namespace TranslationToolKit.Business
             {
                 throw new ArgumentException($"Error while checking for duplicates: {error}", nameof(error));
             }
-            Report.FilePath = path;
+            Report.FilePath = SetFilePath(path);
 
             ParsedFile = FileParser.ProcessFileIntoSections(path);
 
@@ -90,6 +88,12 @@ namespace TranslationToolKit.Business
             return Report;
         }
 
+        /// <summary>
+        /// Generate a new file (same name, with .generated added at the end)
+        /// that doesn't any more duplicates.
+        /// Must run analyzer before running this.
+        /// </summary>
+        /// <returns></returns>
         public string RemoveDuplicates()
         {
             if(Report.FilePath == "")
@@ -119,10 +123,11 @@ namespace TranslationToolKit.Business
         /// <returns></returns>
         private ParsedFile ProcessDuplicates()
         {
-            var newFile = new ParsedFile();
-            
-            // Add the header
-            newFile.FileHeader = ParsedFile.FileHeader;
+            var newFile = new ParsedFile
+            {
+                // Add the header
+                FileHeader = ParsedFile.FileHeader
+            };
 
             // Process the sections.
             var sectionsWithDuplicatedLines = Report.DuplicatedLines.Select(x => x.Key);
@@ -188,6 +193,17 @@ namespace TranslationToolKit.Business
                 }
             }
             return newSection;
+        }
+
+        /// <summary>
+        /// Set a proper file path from the path we were provided
+        /// (in particular, we root it when there is just a file name.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private string SetFilePath(string path)
+        {
+            return Path.GetFullPath(path);
         }
     }
 }

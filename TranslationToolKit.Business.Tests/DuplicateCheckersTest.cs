@@ -43,7 +43,7 @@ namespace TranslationToolKit.Business.Tests
             var report = checker.RunAnalyzer(path);
 
             Assert.NotNull(report);
-            Assert.Equal(path, report.FilePath);
+            Assert.Equal(Path.GetFullPath(path), report.FilePath);
         }
 
         [Fact]
@@ -124,7 +124,7 @@ namespace TranslationToolKit.Business.Tests
                 var resultPath = checker.RemoveDuplicates();
 
                 // Validate
-                Assert.Equal(generatedFile, resultPath);
+                Assert.Equal(Path.GetFullPath(generatedFile), resultPath);
 
                 Assert.True(FileComparer.AreFilesIdentical(expected, resultPath));
             }
@@ -156,6 +156,31 @@ namespace TranslationToolKit.Business.Tests
 
             var result = Assert.Throws<ArgumentException>(() => checker.RemoveDuplicates());
             Assert.Equal("Report is empty, please run the analyzer first", result.Message);
+        }
+
+        [Theory]
+        [InlineData(".\\Output\\Result\\PathRoot.ini", ".\\Output\\Result\\PathRoot.ini")]
+        [InlineData(".\\rooted.ini", ".\\rooted.ini")]
+        [InlineData("unrooted.ini", ".\\unrooted.ini")]
+        public void WhenPathIsUnrootedThenReturnsARootedPath(string path, string expectedValue)
+        {
+            try
+            {
+                if (!File.Exists(path))
+                {
+                    File.Create(path).Dispose();
+                }
+                var checker = new DuplicatesChecker();
+                var report = checker.RunAnalyzer(path);
+                Assert.Equal(Path.GetFullPath(expectedValue), report.FilePath);
+            }
+            finally
+            {
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+            }
         }
     }
 }
