@@ -10,6 +10,7 @@
     <Description>A Toolkit to ease StepMania translation</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageId>TranslationToolkit</PackageId>
+    <UseAppHost>true</UseAppHost>
   </PropertyGroup>
 
   <ItemGroup>
