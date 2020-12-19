@@ -105,7 +105,7 @@ namespace TranslationToolKit
             Console.WriteLine("");
             Console.WriteLine("What do you want to do ?");
             Console.WriteLine("1- Duplicates checker");
-            Console.WriteLine("2- Apply changes from master EN file to translated file");
+            Console.WriteLine("2- Apply changes from reference EN file to a target translation file");
             Console.WriteLine("0- Quit");
             bool parsed;
             Commands command;
@@ -183,12 +183,7 @@ namespace TranslationToolKit
             var checker = new ChangesApplier();
 
             ConsoleWrite($"{Environment.NewLine}=== Changes applier ==={Environment.NewLine}", ConsoleColor.Green);
-            ConsoleWrite($"This tool will compare a reference file (ENglish translation probably) with a target file. You MUST have run the Duplicates checker on BOTH files before running this tool, otherwise it won't perform properly{Environment.NewLine}", ConsoleColor.Yellow);
-
-            if(!AskYesNoQuestion("Have you run the duplicates checkers on both files and are you ready to proceed", ConsoleColor.Yellow))
-            {
-                return;
-            }
+            ConsoleWrite($"This tool will compare a reference file (ENglish translation probably) with a target file.{Environment.NewLine}You MUST have run the Duplicates checker on BOTH files before running this tool, otherwise it won't perform properly{Environment.NewLine}", ConsoleColor.Yellow);
 
             string referencePath;
             string targetPath;
@@ -220,10 +215,7 @@ namespace TranslationToolKit
                 var report = checker.RunAnalyzer(referencePath, targetPath);
                 Console.WriteLine(report.GetDisplayString());
 
-                if (report.NewLines.Count == 0 
-                    && report.NewSections.Count == 0
-                    && report.DeletedSections.Count == 0
-                    && report.DeletedLines.Count == 0)
+                if (!report.IssuesFound)
                 {
                     return;
                 }
