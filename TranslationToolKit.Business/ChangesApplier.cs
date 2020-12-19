@@ -122,10 +122,7 @@ namespace TranslationToolKit.Business
             {
                 throw new ArgumentException("Report is empty, please run the analyzer first");
             }
-            if (Report.NewLines.Count == 0
-                && Report.NewSections.Count == 0
-                && Report.DeletedLines.Count == 0
-                && Report.DeletedSections.Count == 0)
+            if (!Report.IssuesFound)
             {
                 return "";
             }

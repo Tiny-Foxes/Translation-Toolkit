@@ -78,6 +78,10 @@ namespace TranslationToolKit.FileProcessing
             if (currentSection.Count != 0)
             {
                 section = parser.ParseSection(currentSection);
+                if(!string.IsNullOrEmpty(parser.ExtraneousComment))
+                {
+                    section.SectionSuffix = $"{section.SectionSuffix}{parser.ExtraneousComment}";
+                }
                 result.AddSection(section, index++);
             }
             return result;

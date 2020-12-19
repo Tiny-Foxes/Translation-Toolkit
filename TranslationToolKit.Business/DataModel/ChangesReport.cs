@@ -39,6 +39,18 @@ namespace TranslationToolKit.Business.DataModel
         /// </summary>
         public List<KeyValuePair<string, string>> DeletedLines { get; set; }
 
+
+        public bool IssuesFound
+        {
+            get 
+            {
+                return DeletedSections.Count != 0
+                    || DeletedLines.Count != 0
+                    || NewSections.Count != 0
+                    || NewLines.Count != 0;
+            }
+        }
+
         public ChangesReport()
         {
             NewSections = new List<string>();

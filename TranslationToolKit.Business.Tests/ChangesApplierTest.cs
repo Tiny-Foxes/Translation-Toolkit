@@ -3,6 +3,7 @@ using TranslationToolKit.Business;
 using System.Text;
 using Xunit;
 using System.IO;
+using TranslationToolKit.FileProcessing.Tests.Helper;
 
 namespace TranslationToolKit.Business.Tests
 {
@@ -101,6 +102,64 @@ namespace TranslationToolKit.Business.Tests
             Assert.Equal(5, report.DeletedLines.Count);
             Assert.Equal("[OptionNames]", report.DeletedLines[2].Key);
             Assert.Equal("LightScreenFilter", report.DeletedLines[2].Value);
+        }
+
+        [Fact]
+        public void CheckThatANewFileIsCreatedWithTheModifications()
+        {
+            string referencePath = ".\\Input\\ChangesApplier\\ReferenceMiniDe.ini";
+            string targetPath = ".\\Input\\ChangesApplier\\TargetMiniDe.ini";            
+            string generatedPath = ValidationHelper.SetFilePath(".\\Input\\ChangesApplier\\TargetMiniDe.ini.generated");
+
+            if (File.Exists(generatedPath))
+            {
+                File.Delete(generatedPath);
+            }
+
+            try
+            {
+                var checker = new ChangesApplier();
+                checker.RunAnalyzer(referencePath, targetPath);
+                checker.SynchronizeFile();
+                Assert.True(File.Exists(generatedPath));
+                FileComparer.AreFilesIdentical(generatedPath,targetPath);
+            }
+            finally
+            {
+                if(File.Exists(generatedPath))
+                {
+                    File.Delete(generatedPath);
+                }
+            }
+        }
+
+        [Fact]
+        public void MakeSureThatTheChangesApplierKeepPrefixAndSuffix()
+        {
+            string referencePath = ".\\Input\\ChangesApplier\\ReferenceMiniBr.ini";
+            string targetPath = ".\\Input\\ChangesApplier\\TargetMiniBr.ini";
+            string generatedPath = ValidationHelper.SetFilePath(".\\Input\\ChangesApplier\\TargetMiniBr.ini.generated");
+
+            if (File.Exists(generatedPath))
+            {
+                File.Delete(generatedPath);
+            }
+
+            try
+            {
+                var checker = new ChangesApplier();
+                checker.RunAnalyzer(referencePath, targetPath);
+                checker.SynchronizeFile();
+                Assert.True(File.Exists(generatedPath));
+                FileComparer.AreFilesIdentical(generatedPath, targetPath);
+            }
+            finally
+            {
+                if (File.Exists(generatedPath))
+                {
+                    File.Delete(generatedPath);
+                }
+            }
         }
     }
 }
