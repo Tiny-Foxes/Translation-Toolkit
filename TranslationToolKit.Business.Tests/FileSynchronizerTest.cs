@@ -1,13 +1,12 @@
 ﻿using System;
-using TranslationToolKit.Business;
-using System.Text;
 using Xunit;
 using System.IO;
+using TranslationToolKit.Business;
 using TranslationToolKit.FileProcessing.Tests.Helper;
 
 namespace TranslationToolKit.Business.Tests
 {
-    public class ChangesApplierTest
+    public class FileSynchronizerTest
     {
         [Fact]
         public void WhenFileDoesntExistThenIsFileValidThrowsAnError()
@@ -16,7 +15,7 @@ namespace TranslationToolKit.Business.Tests
             var path = Path.GetTempFileName();
             try
             {
-                Assert.True(ChangesApplier.IsFileValid(path, out error));
+                Assert.True(FileSynchronizer.IsFileValid(path, out error));
                 Assert.Equal("", error);
             }
             finally
@@ -24,14 +23,14 @@ namespace TranslationToolKit.Business.Tests
                 File.Delete(path);
             }
 
-            Assert.False(ChangesApplier.IsFileValid(path, out error));
+            Assert.False(FileSynchronizer.IsFileValid(path, out error));
             Assert.Equal($"The file {path} doesn't exist", error);
         }
 
         [Fact]
         public void WhenFileDoesntExistThenRunAnalyzerThrowsAnException()
         {
-            var checker = new ChangesApplier();
+            var checker = new FileSynchronizer();
             var path = Path.GetRandomFileName();
 
             Assert.Throws<ArgumentException>(() => checker.RunAnalyzer(path, path));
@@ -41,9 +40,9 @@ namespace TranslationToolKit.Business.Tests
         [Fact]
         public void WhenThereIsAMissingSectionThenRunAnalyzerFindsIt()
         {
-            string targetPath = ".\\Input\\ChangesApplier\\ReferenceFile.txt";
-            string referencePath = ".\\Input\\ChangesApplier\\ReferenceFileWithNewSection.txt";
-            var checker = new ChangesApplier();
+            string targetPath = ".\\Input\\FileSynchronizer\\ReferenceFile.txt";
+            string referencePath = ".\\Input\\FileSynchronizer\\ReferenceFileWithNewSection.txt";
+            var checker = new FileSynchronizer();
             var report = checker.RunAnalyzer(referencePath, targetPath);
 
             Assert.NotNull(report);
@@ -57,9 +56,9 @@ namespace TranslationToolKit.Business.Tests
         [Fact]
         public void WhenThereIsADeletedSectionThenRunAnalyzerFindsIt()
         {
-            string targetPath = ".\\Input\\ChangesApplier\\ReferenceFile.txt";
-            string referencePath = ".\\Input\\ChangesApplier\\ReferenceFileWithDeletedSection.txt";
-            var checker = new ChangesApplier();
+            string targetPath = ".\\Input\\FileSynchronizer\\ReferenceFile.txt";
+            string referencePath = ".\\Input\\FileSynchronizer\\ReferenceFileWithDeletedSection.txt";
+            var checker = new FileSynchronizer();
             var report = checker.RunAnalyzer(referencePath, targetPath);
 
             Assert.NotNull(report);
@@ -73,9 +72,9 @@ namespace TranslationToolKit.Business.Tests
         [Fact]
         public void WhenThereIsANewLineThenRunAnalyzerFindsIt()
         {
-            string targetPath = ".\\Input\\ChangesApplier\\ReferenceFile.txt";
-            string referencePath = ".\\Input\\ChangesApplier\\ReferenceFileWithNewLines.txt";
-            var checker = new ChangesApplier();
+            string targetPath = ".\\Input\\FileSynchronizer\\ReferenceFile.txt";
+            string referencePath = ".\\Input\\FileSynchronizer\\ReferenceFileWithNewLines.txt";
+            var checker = new FileSynchronizer();
             var report = checker.RunAnalyzer(referencePath, targetPath);
 
             Assert.NotNull(report);
@@ -90,9 +89,9 @@ namespace TranslationToolKit.Business.Tests
         [Fact]
         public void WhenThereIsADeletedLineThenRunAnalyzerFindsIt()
         {
-            string targetPath = ".\\Input\\ChangesApplier\\ReferenceFile.txt";
-            string referencePath = ".\\Input\\ChangesApplier\\ReferenceFileDeletedLines.txt";
-            var checker = new ChangesApplier();
+            string targetPath = ".\\Input\\FileSynchronizer\\ReferenceFile.txt";
+            string referencePath = ".\\Input\\FileSynchronizer\\ReferenceFileDeletedLines.txt";
+            var checker = new FileSynchronizer();
             var report = checker.RunAnalyzer(referencePath, targetPath);
 
             Assert.NotNull(report);
@@ -107,9 +106,9 @@ namespace TranslationToolKit.Business.Tests
         [Fact]
         public void CheckThatANewFileIsCreatedWithTheModifications()
         {
-            string referencePath = ".\\Input\\ChangesApplier\\ReferenceMiniDe.ini";
-            string targetPath = ".\\Input\\ChangesApplier\\TargetMiniDe.ini";            
-            string generatedPath = ValidationHelper.SetFilePath(".\\Input\\ChangesApplier\\TargetMiniDe.ini.generated");
+            string referencePath = ".\\Input\\FileSynchronizer\\ReferenceMiniDe.ini";
+            string targetPath = ".\\Input\\FileSynchronizer\\TargetMiniDe.ini";            
+            string generatedPath = ValidationHelper.SetFilePath(".\\Input\\FileSynchronizer\\TargetMiniDe.ini.generated");
 
             if (File.Exists(generatedPath))
             {
@@ -118,7 +117,7 @@ namespace TranslationToolKit.Business.Tests
 
             try
             {
-                var checker = new ChangesApplier();
+                var checker = new FileSynchronizer();
                 checker.RunAnalyzer(referencePath, targetPath);
                 checker.SynchronizeFile();
                 Assert.True(File.Exists(generatedPath));
@@ -136,9 +135,9 @@ namespace TranslationToolKit.Business.Tests
         [Fact]
         public void MakeSureThatTheChangesApplierKeepPrefixAndSuffix()
         {
-            string referencePath = ".\\Input\\ChangesApplier\\ReferenceMiniBr.ini";
-            string targetPath = ".\\Input\\ChangesApplier\\TargetMiniBr.ini";
-            string generatedPath = ValidationHelper.SetFilePath(".\\Input\\ChangesApplier\\TargetMiniBr.ini.generated");
+            string referencePath = ".\\Input\\FileSynchronizer\\ReferenceMiniBr.ini";
+            string targetPath = ".\\Input\\FileSynchronizer\\TargetMiniBr.ini";
+            string generatedPath = ValidationHelper.SetFilePath(".\\Input\\FileSynchronizer\\TargetMiniBr.ini.generated");
 
             if (File.Exists(generatedPath))
             {
@@ -147,7 +146,7 @@ namespace TranslationToolKit.Business.Tests
 
             try
             {
-                var checker = new ChangesApplier();
+                var checker = new FileSynchronizer();
                 checker.RunAnalyzer(referencePath, targetPath);
                 checker.SynchronizeFile();
                 Assert.True(File.Exists(generatedPath));

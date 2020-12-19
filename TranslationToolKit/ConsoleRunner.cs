@@ -105,7 +105,7 @@ namespace TranslationToolKit
             Console.WriteLine("");
             Console.WriteLine("What do you want to do ?");
             Console.WriteLine("1- Duplicates checker");
-            Console.WriteLine("2- Apply changes from reference EN file to a target translation file");
+            Console.WriteLine("2- Synchronize changes from a reference file to a target translation file");
             Console.WriteLine("0- Quit");
             bool parsed;
             Commands command;
@@ -180,9 +180,9 @@ namespace TranslationToolKit
         /// </summary>
         private void ApplyChanges()
         {
-            var checker = new ChangesApplier();
+            var checker = new FileSynchronizer();
 
-            ConsoleWrite($"{Environment.NewLine}=== Changes applier ==={Environment.NewLine}", ConsoleColor.Green);
+            ConsoleWrite($"{Environment.NewLine}=== File Synchronizer ==={Environment.NewLine}", ConsoleColor.Green);
             ConsoleWrite($"This tool will compare a reference file (ENglish translation probably) with a target file.{Environment.NewLine}You MUST have run the Duplicates checker on BOTH files before running this tool, otherwise it won't perform properly{Environment.NewLine}", ConsoleColor.Yellow);
 
             string referencePath;
@@ -192,7 +192,7 @@ namespace TranslationToolKit
             {
                 ConsoleWrite("Please enter the path to the reference file you want to use", ConsoleColor.Cyan);
                 referencePath = Console.ReadLine();
-                if (!ChangesApplier.IsFileValid(referencePath, out error))
+                if (!FileSynchronizer.IsFileValid(referencePath, out error))
                 {
                     DisplayErrorIfAny(error);
                 }
@@ -202,7 +202,7 @@ namespace TranslationToolKit
             {
                 ConsoleWrite("Please enter the path to the translation file that you want to check", ConsoleColor.Cyan);
                 targetPath = Console.ReadLine();
-                if (!ChangesApplier.IsFileValid(targetPath, out error))
+                if (!FileSynchronizer.IsFileValid(targetPath, out error))
                 {
                     DisplayErrorIfAny(error);
                 }

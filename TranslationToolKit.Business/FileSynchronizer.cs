@@ -9,7 +9,7 @@ using TranslationToolKit.FileProcessing.DataModel;
 
 namespace TranslationToolKit.Business
 {
-    public class ChangesApplier
+    public class FileSynchronizer
     {
         /// <summary>
         /// Analysis report, detailing the difference between our two files.
@@ -28,7 +28,7 @@ namespace TranslationToolKit.Business
         /// </summary>
         public ParsedFile ParsedTargetFile { get; private set; }
 
-        public ChangesApplier()
+        public FileSynchronizer()
         {
             Report = new ChangesReport();
         }
