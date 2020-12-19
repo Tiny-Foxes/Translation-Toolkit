@@ -1,0 +1,6 @@
+﻿[ScreenSetBGFit]
+SubHeaderText=This is a sub-header
+HeaderText=Background fit modes
+
+[Books]
+Foundation=Foundation

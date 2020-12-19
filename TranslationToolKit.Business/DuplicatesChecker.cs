@@ -43,10 +43,7 @@ namespace TranslationToolKit.Business
         public static bool IsFileValid(string path, out string error)
         {
             error = "";
-            if(!File.Exists(path))
-            {
-                error += $"The file {path} doesn't exist";
-            }
+            ValidationHelper.DoesFileExist(path, ref error);
             return (error == "");
         }
 
@@ -62,7 +59,7 @@ namespace TranslationToolKit.Business
             {
                 throw new ArgumentException($"Error while checking for duplicates: {error}", nameof(error));
             }
-            Report.FilePath = SetFilePath(path);
+            Report.FilePath = ValidationHelper.SetFilePath(path);
 
             ParsedFile = FileParser.ProcessFileIntoSections(path);
 
@@ -90,7 +87,7 @@ namespace TranslationToolKit.Business
 
         /// <summary>
         /// Generate a new file (same name, with .generated added at the end)
-        /// that doesn't any more duplicates.
+        /// that doesn't have any more duplicates.
         /// Must run analyzer before running this.
         /// </summary>
         /// <returns></returns>
@@ -193,17 +190,6 @@ namespace TranslationToolKit.Business
                 }
             }
             return newSection;
-        }
-
-        /// <summary>
-        /// Set a proper file path from the path we were provided
-        /// (in particular, we root it when there is just a file name.
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        private string SetFilePath(string path)
-        {
-            return Path.GetFullPath(path);
         }
     }
 }

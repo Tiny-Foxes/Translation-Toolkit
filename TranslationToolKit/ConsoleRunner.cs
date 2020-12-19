@@ -16,7 +16,8 @@ namespace TranslationToolKit
         public enum Commands
         {
             Quit,
-            DuplicateCheck
+            DuplicateCheck,
+            ApplyChanges
         };
 
         /// <summary>
@@ -76,10 +77,15 @@ namespace TranslationToolKit
                     switch (command)
                     {
                         case Commands.DuplicateCheck:
-                            {
-                                DuplicatesCheck();
-                                break;
-                            }
+                        {
+                            DuplicatesCheck();
+                            break;
+                        }
+                        case Commands.ApplyChanges:
+                        {
+                            ApplyChanges();
+                            break;
+                        }
                     }
                 }
                 catch (Exception e)
@@ -99,6 +105,7 @@ namespace TranslationToolKit
             Console.WriteLine("");
             Console.WriteLine("What do you want to do ?");
             Console.WriteLine("1- Duplicates checker");
+            Console.WriteLine("2- Apply changes from master EN file to translated file");
             Console.WriteLine("0- Quit");
             bool parsed;
             Commands command;
@@ -160,6 +167,83 @@ namespace TranslationToolKit
                         }
                     }
                     catch(Exception e)
+                    {
+                        ConsoleWrite($"Error while trying to create new file: {e}", ConsoleColor.Red);
+                    }
+                }
+            }
+            return;
+        }
+
+        /// <summary>
+        /// Run the changes applier.
+        /// </summary>
+        private void ApplyChanges()
+        {
+            var checker = new ChangesApplier();
+
+            ConsoleWrite($"{Environment.NewLine}=== Changes applier ==={Environment.NewLine}", ConsoleColor.Green);
+            ConsoleWrite($"This tool will compare a reference file (ENglish translation probably) with a target file. You MUST have run the Duplicates checker on BOTH files before running this tool, otherwise it won't perform properly{Environment.NewLine}", ConsoleColor.Yellow);
+
+            if(!AskYesNoQuestion("Have you run the duplicates checkers on both files and are you ready to proceed", ConsoleColor.Yellow))
+            {
+                return;
+            }
+
+            string referencePath;
+            string targetPath;
+            string error;
+            do
+            {
+                ConsoleWrite("Please enter the path to the reference file you want to use", ConsoleColor.Cyan);
+                referencePath = Console.ReadLine();
+                if (!ChangesApplier.IsFileValid(referencePath, out error))
+                {
+                    DisplayErrorIfAny(error);
+                }
+            } while (error != "");
+
+            do
+            {
+                ConsoleWrite("Please enter the path to the translation file that you want to check", ConsoleColor.Cyan);
+                targetPath = Console.ReadLine();
+                if (!ChangesApplier.IsFileValid(targetPath, out error))
+                {
+                    DisplayErrorIfAny(error);
+                }
+            } while (error != "");
+
+            bool proceed = AskYesNoQuestion($"Do you want to compare the reference file with the target file{Environment.NewLine}- Reference file: {referencePath}{Environment.NewLine}- Target file: {targetPath}{Environment.NewLine}", ConsoleColor.Cyan);
+            Console.ForegroundColor = OriginalColor;
+            if (proceed)
+            {
+                var report = checker.RunAnalyzer(referencePath, targetPath);
+                Console.WriteLine(report.GetDisplayString());
+
+                if (report.NewLines.Count == 0 
+                    && report.NewSections.Count == 0
+                    && report.DeletedSections.Count == 0
+                    && report.DeletedLines.Count == 0)
+                {
+                    return;
+                }
+
+                proceed = AskYesNoQuestion($"Difference(s) found. Do you want to create a new file{Environment.NewLine}({report.TargetPath}.generated){Environment.NewLine}in sync with the reference file", ConsoleColor.Yellow);
+                if (proceed)
+                {
+                    try
+                    {
+                        var resultPath = checker.SynchronizeFile();
+                        if (resultPath != "")
+                        {
+                            ConsoleWrite($"File successfully written at {resultPath}", ConsoleColor.Green);
+                        }
+                        else
+                        {
+                            ConsoleWrite("Unspecified error while trying to write file", ConsoleColor.Red);
+                        }
+                    }
+                    catch (Exception e)
                     {
                         ConsoleWrite($"Error while trying to create new file: {e}", ConsoleColor.Red);
                     }
