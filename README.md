@@ -7,7 +7,7 @@ It is able to parse, analyze and fix the StepMania translation files.
 ## Features ##
 
 * **Duplicates checker**: Parse a translation file, and determine whether there are sections or lines that are duplicates. If so, the user can also for a new file to be generated without the duplicates.
-* **Changes applier**: Compare a reference file (usually en.ini) with a target file, and sync the target file with the reference file (add new lines, remove deleted ones, and order things like the reference file does it).
+* **File synchronizer**: Compare a reference file (usually en.ini) with a target file, and sync the target file with the reference file (add new lines, remove deleted ones, and order things like the reference file does it).
 
 ## How to use ##
 
