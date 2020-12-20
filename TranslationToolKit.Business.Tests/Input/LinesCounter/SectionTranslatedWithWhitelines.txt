@@ -1,0 +1,13 @@
+﻿[Common]
+WindowTitle=StepMania OutFox FR
+StepMania=StepMania
+# Dedicated Character Display strings
+ModelLoadError=Le modèle pour %s (%s) est invalide. Vérifiez que le fichier model.txt est nommé et formaté correctement.
+
+ModelAnimLoadError=Un fichier d'animations pour le modèle de %s (%s) est invalide ou manquant. Vérifiez qu'aucun fichier ne manque dans les répertoires des animations.
+# Translation TODO: confirm what this is about
+LocationLoadError=Le modèle d'emplacement est manquant pour l'emplacement actuel (%s). Vérifiez que le fichier model.txt file est nommé et formaté correctement.
+
+SongLoaderSingleSong=Lecture de chansons en aléatoire : le répertoire actuel ne contient qu'une chanson. StepMania might get confused when picking the song via random. Selecting to index 1.
+# Translation TODO: confirm what this is about (fallback = theme fallback ?)
+SongLoaderNoSongs=Lecture de chansons en aléatoire : le répertoire d'installation de StepMania ne contient aucune chanson ! Utilisation des chansons de fallback.

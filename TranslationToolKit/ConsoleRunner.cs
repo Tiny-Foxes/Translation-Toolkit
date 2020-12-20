@@ -17,7 +17,8 @@ namespace TranslationToolKit
         {
             Quit,
             DuplicateCheck,
-            ApplyChanges
+            ApplyChanges,
+            CountLines
         };
 
         /// <summary>
@@ -86,6 +87,11 @@ namespace TranslationToolKit
                             ApplyChanges();
                             break;
                         }
+                        case Commands.CountLines:
+                        {
+                            CountLines();
+                            break;
+                        }
                     }
                 }
                 catch (Exception e)
@@ -106,6 +112,7 @@ namespace TranslationToolKit
             Console.WriteLine("What do you want to do ?");
             Console.WriteLine("1- Duplicates checker");
             Console.WriteLine("2- Synchronize changes from a reference file to a target translation file");
+            Console.WriteLine("3- Count the number of lines that you have translated versus what remains to be done");
             Console.WriteLine("0- Quit");
             bool parsed;
             Commands command;
@@ -242,6 +249,45 @@ namespace TranslationToolKit
                 }
             }
             return;
+        }
+
+        /// <summary>
+        /// Lines counter.
+        /// </summary>
+        private void CountLines()
+        {
+            var checker = new LinesCounter();
+
+            ConsoleWrite($"{Environment.NewLine}=== Lines Counter ==={Environment.NewLine}", ConsoleColor.Green);
+            ConsoleWrite($"This tool is here to help you feel better about your translation work:{Environment.NewLine}It counts the number of lines in a reference file, then compares them with a target file, and tells you how many lines you've already translated.{Environment.NewLine}Note that this is not a serious tool as it only can only count which lines are different between the two files, and can't know which lines are left untranslated/identical on purpose.{Environment.NewLine}Still, I find it's good for motivation to see numbers go up as you keep on translating lines.{Environment.NewLine}", ConsoleColor.Magenta);
+            ConsoleWrite($"You MUST have run the Duplicates checker on BOTH files before running this tool, otherwise it won't perform properly{Environment.NewLine}", ConsoleColor.Yellow);
+
+            string referencePath;
+            string targetPath;
+            string error;
+            do
+            {
+                ConsoleWrite("Please enter the path to the reference file you want to use", ConsoleColor.Cyan);
+                referencePath = Console.ReadLine();
+                if (!FileSynchronizer.IsFileValid(referencePath, out error))
+                {
+                    DisplayErrorIfAny(error);
+                }
+            } while (error != "");
+
+            do
+            {
+                ConsoleWrite("Please enter the path to the translation file that you want to check", ConsoleColor.Cyan);
+                targetPath = Console.ReadLine();
+                if (!FileSynchronizer.IsFileValid(targetPath, out error))
+                {
+                    DisplayErrorIfAny(error);
+                }
+            } while (error != "");
+
+            Console.WriteLine();
+            var report = checker.RunAnalyzer(referencePath, targetPath);
+            ConsoleWrite(report.GetDisplayString(), ConsoleColor.Green);
         }
 
         /// <summary>
