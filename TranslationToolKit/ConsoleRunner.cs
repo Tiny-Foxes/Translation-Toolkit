@@ -108,12 +108,12 @@ namespace TranslationToolKit
         private Commands DisplayMainMenu()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("");
-            Console.WriteLine("What do you want to do ?");
-            Console.WriteLine("1- Duplicates checker");
-            Console.WriteLine("2- Synchronize changes from a reference file to a target translation file");
-            Console.WriteLine("3- Count the number of lines that you have translated versus what remains to be done");
-            Console.WriteLine("0- Quit");
+            ConsoleWrite("", ConsoleColor.Cyan);
+            ConsoleWrite("What do you want to do ?", ConsoleColor.Cyan);
+            ConsoleWrite("1- Duplicates checker", ConsoleColor.Cyan);
+            ConsoleWrite("2- Synchronize changes from a reference file to a target translation file", ConsoleColor.Cyan);
+            ConsoleWrite("3- Count the number of lines that you have translated versus what remains to be done", ConsoleColor.Cyan);
+            ConsoleWrite("0- Quit", ConsoleColor.Cyan);
             bool parsed;
             Commands command;
             do
@@ -287,7 +287,12 @@ namespace TranslationToolKit
 
             Console.WriteLine();
             var report = checker.RunAnalyzer(referencePath, targetPath);
-            ConsoleWrite(report.GetDisplayString(), ConsoleColor.Green);
+            ConsoleWrite(report.GetDisplayString(), ConsoleColor.Cyan);
+            ConsoleWrite($">>>> You've already translated {report.Percentage}% of lines! <<<<", ConsoleColor.Green);
+            Console.WriteLine();
+            ConsoleWrite($"Note: lines whose translation are identical to the reference lines sadly can't be counted as translated.", ConsoleColor.Yellow);
+            ConsoleWrite($"But that's good news, because it means your true percentage is likely higher!", ConsoleColor.Yellow);
+            ConsoleWrite($"Thanks for helping with the translation, I hope this tool will help you see your progress and keep your motivation :)", ConsoleColor.Yellow);
         }
 
         /// <summary>
