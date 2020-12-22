@@ -1,8 +1,6 @@
 ﻿using System;
 using Xunit;
 using System.IO;
-using TranslationToolKit.Business;
-using TranslationToolKit.FileProcessing.Tests.Helper;
 
 namespace TranslationToolKit.Business.Tests
 {
@@ -105,6 +103,20 @@ namespace TranslationToolKit.Business.Tests
             Assert.Equal(20, report.TotalLinesCount);
             Assert.Equal(18, report.TranslatedLinesCount);
             Assert.Equal(90.0, report.Percentage);
+        }
+
+        [Fact]
+        public void NativeLanguageSectionIsNotIncludedInTheCount()
+        {
+            string referencePath = ".\\Input\\LinesCounter\\SectionReferenceWithNativeLanguageSection.txt";
+            string targetPath = ".\\Input\\LinesCounter\\SectionTranslated.txt";
+            var checker = new LinesCounter();
+            var report = checker.RunAnalyzer(referencePath, targetPath);
+
+            Assert.NotNull(report);
+            Assert.Equal(11, report.TotalLinesCount);
+            Assert.Equal(7, report.TranslatedLinesCount);
+            Assert.Equal(63.64, report.Percentage);
         }
     }
 }

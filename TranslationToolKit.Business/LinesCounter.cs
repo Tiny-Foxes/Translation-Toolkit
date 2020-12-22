@@ -13,6 +13,12 @@ namespace TranslationToolKit.Business
         /// </summary>
         public CountReport Report { get; private set; }
 
+        /// <summary>
+        /// Native Language Section is a bunch of lines that are in their original language.
+        /// Thus they never get translated. This is the name of that section.
+        /// </summary>
+        public const string NativeLanguageSectionName = "[NativeLanguageNames]";
+
         public LinesCounter()
         {
             Report = new CountReport();
@@ -58,6 +64,11 @@ namespace TranslationToolKit.Business
 
             foreach (var referencePair in parsedReferenceFile)
             {
+                // Native Language lines should not be translated, so we skip it.
+                if(referencePair.Key.HeaderKey.Equals(NativeLanguageSectionName))
+                {
+                    continue;
+                }
                 Report.TotalLinesCount += referencePair.Value.Keys.Count(x => x.HeaderKey != string.Empty);
                 var targetSectionHeader = parsedTargetFile.Keys.FirstOrDefault(x => x.HeaderKey == referencePair.Key.HeaderKey);
                 if (targetSectionHeader != null)
