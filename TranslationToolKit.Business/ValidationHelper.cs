@@ -4,6 +4,25 @@ namespace TranslationToolKit.Business
 {
     public static class ValidationHelper
     {
+        /// <summary>
+        /// Check that the file provided (in the form of a path),
+        /// is a valid file for analysis.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        public static bool IsFileValid(string path, out string error)
+        {
+            error = "";
+            ValidationHelper.DoesFileExist(path, ref error);
+            return (error == "");
+        }
+
+        /// <summary>
+        /// Verify that a file exists, otherwise write an error.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="error"></param>
         public static void DoesFileExist(string path, ref string error)
         {
             if (!File.Exists(path))

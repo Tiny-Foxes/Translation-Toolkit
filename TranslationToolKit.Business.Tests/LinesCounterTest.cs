@@ -7,25 +7,6 @@ namespace TranslationToolKit.Business.Tests
     public class LinesCounterTest
     {
         [Fact]
-        public void WhenFileDoesntExistThenIsFileValidThrowsAnError()
-        {
-            string error;
-            var path = Path.GetTempFileName();
-            try
-            {
-                Assert.True(LinesCounter.IsFileValid(path, out error));
-                Assert.Equal("", error);
-            }
-            finally
-            {
-                File.Delete(path);
-            }
-
-            Assert.False(LinesCounter.IsFileValid(path, out error));
-            Assert.Equal($"The file {path} doesn't exist", error);
-        }
-
-        [Fact]
         public void WhenFileDoesntExistThenRunAnalyzerThrowsAnException()
         {
             var checker = new LinesCounter();

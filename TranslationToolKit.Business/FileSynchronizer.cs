@@ -34,20 +34,6 @@ namespace TranslationToolKit.Business
         }
 
         /// <summary>
-        /// Check that the file provided (in the form of a path),
-        /// is a valid file for analysis.
-        /// </summary>
-        /// <param name="path"></param>
-        /// <param name="error"></param>
-        /// <returns></returns>
-        public static bool IsFileValid(string path, out string error)
-        {
-            error = "";
-            ValidationHelper.DoesFileExist(path, ref error);
-            return (error == "");
-        }
-
-        /// <summary>
         /// Compare the reference file to the target file.
         /// Doesn't modify anything, just provide a report of differences.
         /// </summary>
@@ -56,11 +42,11 @@ namespace TranslationToolKit.Business
         /// <returns></returns>
         public ChangesReport RunAnalyzer(string referencePath, string targetPath)
         {
-            if (!IsFileValid(referencePath, out string error))
+            if (!ValidationHelper.IsFileValid(referencePath, out string error))
             {
                 throw new ArgumentException($"The provided reference file is wrong: {error}", nameof(error));
             }
-            if (!IsFileValid(targetPath, out error))
+            if (!ValidationHelper.IsFileValid(targetPath, out error))
             {
                 throw new ArgumentException($"The provided target file is wrong: {error}", nameof(error));
             }

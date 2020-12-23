@@ -9,25 +9,6 @@ namespace TranslationToolKit.Business.Tests
     public class FileSynchronizerTest
     {
         [Fact]
-        public void WhenFileDoesntExistThenIsFileValidThrowsAnError()
-        {
-            string error;
-            var path = Path.GetTempFileName();
-            try
-            {
-                Assert.True(FileSynchronizer.IsFileValid(path, out error));
-                Assert.Equal("", error);
-            }
-            finally
-            {
-                File.Delete(path);
-            }
-
-            Assert.False(FileSynchronizer.IsFileValid(path, out error));
-            Assert.Equal($"The file {path} doesn't exist", error);
-        }
-
-        [Fact]
         public void WhenFileDoesntExistThenRunAnalyzerThrowsAnException()
         {
             var checker = new FileSynchronizer();
@@ -35,7 +16,6 @@ namespace TranslationToolKit.Business.Tests
 
             Assert.Throws<ArgumentException>(() => checker.RunAnalyzer(path, path));
         }
-
 
         [Fact]
         public void WhenThereIsAMissingSectionThenRunAnalyzerFindsIt()

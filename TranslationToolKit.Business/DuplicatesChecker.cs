@@ -34,20 +34,6 @@ namespace TranslationToolKit.Business
         }
 
         /// <summary>
-        /// Check that the file provided (in the form of a path),
-        /// is a valid file for analysis.
-        /// </summary>
-        /// <param name="path"></param>
-        /// <param name="error"></param>
-        /// <returns></returns>
-        public static bool IsFileValid(string path, out string error)
-        {
-            error = "";
-            ValidationHelper.DoesFileExist(path, ref error);
-            return (error == "");
-        }
-
-        /// <summary>
         /// Analyze a file to find the duplicates in it.
         /// Doesn't modify the file.
         /// </summary>
@@ -55,7 +41,7 @@ namespace TranslationToolKit.Business
         /// <returns></returns>
         public DuplicatesReport RunAnalyzer(string path)
         {
-            if(!IsFileValid(path, out string error))
+            if(!ValidationHelper.IsFileValid(path, out string error))
             {
                 throw new ArgumentException($"Error while checking for duplicates: {error}", nameof(error));
             }
