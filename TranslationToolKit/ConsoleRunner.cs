@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Reflection;
-using System.Text;
 using TranslationToolKit.Business;
 
 namespace TranslationToolKit
@@ -50,7 +46,7 @@ namespace TranslationToolKit
         /// Get the assembly version.
         /// </summary>
         /// <returns></returns>
-        public string GetAssemblyVersion()
+        private static string GetAssemblyVersion()
         {
             var versionString = "0";
             var version = Assembly.GetExecutingAssembly()?.GetName()?.Version;
@@ -94,6 +90,11 @@ namespace TranslationToolKit
                         }
                     }
                 }
+                catch(AbortException)
+                {
+                    Console.WriteLine("E"); // I don't know why pressing escape eats one character, so I'm adding a dummy one.
+                    ConsoleWrite("Command aborted, going back to main menu", ConsoleColor.Yellow);
+                }
                 catch (Exception e)
                 {
                     ConsoleWrite($"Error while running command {command}: {Environment.NewLine}{e}", ConsoleColor.Red);
@@ -134,17 +135,7 @@ namespace TranslationToolKit
 
             ConsoleWrite($"{Environment.NewLine}=== Duplicates checker ==={Environment.NewLine}", ConsoleColor.Green);
 
-            string path;
-            string error;
-            do
-            {
-                ConsoleWrite("Please enter the path to the file you want to check", ConsoleColor.Cyan);
-                path = Console.ReadLine();
-                if(!DuplicatesChecker.IsFileValid(path, out error))
-                {
-                    DisplayErrorIfAny(error);
-                }
-            } while (error != "");
+            var path = GetFilePathAndVerify("Please enter the path to the file you want to check");
 
             bool proceed = AskYesNoQuestion($"Do you want to run the duplicates checker on the following file{Environment.NewLine}{path}{Environment.NewLine}", ConsoleColor.Cyan);
             Console.ForegroundColor = OriginalColor;
@@ -192,28 +183,8 @@ namespace TranslationToolKit
             ConsoleWrite($"{Environment.NewLine}=== File Synchronizer ==={Environment.NewLine}", ConsoleColor.Green);
             ConsoleWrite($"This tool will compare a reference file (ENglish translation probably) with a target file.{Environment.NewLine}You MUST have run the Duplicates checker on BOTH files before running this tool, otherwise it won't perform properly{Environment.NewLine}", ConsoleColor.Yellow);
 
-            string referencePath;
-            string targetPath;
-            string error;
-            do
-            {
-                ConsoleWrite("Please enter the path to the reference file you want to use", ConsoleColor.Cyan);
-                referencePath = Console.ReadLine();
-                if (!FileSynchronizer.IsFileValid(referencePath, out error))
-                {
-                    DisplayErrorIfAny(error);
-                }
-            } while (error != "");
-
-            do
-            {
-                ConsoleWrite("Please enter the path to the translation file that you want to check", ConsoleColor.Cyan);
-                targetPath = Console.ReadLine();
-                if (!FileSynchronizer.IsFileValid(targetPath, out error))
-                {
-                    DisplayErrorIfAny(error);
-                }
-            } while (error != "");
+            var referencePath = GetFilePathAndVerify("Please enter the path to the reference file you want to use");
+            var targetPath = GetFilePathAndVerify("Please enter the path to the translation file that you want to check");
 
             bool proceed = AskYesNoQuestion($"Do you want to compare the reference file with the target file{Environment.NewLine}- Reference file: {referencePath}{Environment.NewLine}- Target file: {targetPath}{Environment.NewLine}", ConsoleColor.Cyan);
             Console.ForegroundColor = OriginalColor;
@@ -262,28 +233,8 @@ namespace TranslationToolKit
             ConsoleWrite($"This tool is here to help you feel better about your translation work:{Environment.NewLine}It counts the number of lines in a reference file, then compares them with a target file, and tells you how many lines you've already translated.{Environment.NewLine}Note that this is not a serious tool as it only can only count which lines are different between the two files, and can't know which lines are left untranslated/identical on purpose.{Environment.NewLine}Still, I find it's good for motivation to see numbers go up as you keep on translating lines.{Environment.NewLine}", ConsoleColor.Magenta);
             ConsoleWrite($"You MUST have run the Duplicates checker on BOTH files before running this tool, otherwise it won't perform properly{Environment.NewLine}", ConsoleColor.Yellow);
 
-            string referencePath;
-            string targetPath;
-            string error;
-            do
-            {
-                ConsoleWrite("Please enter the path to the reference file you want to use", ConsoleColor.Cyan);
-                referencePath = Console.ReadLine();
-                if (!FileSynchronizer.IsFileValid(referencePath, out error))
-                {
-                    DisplayErrorIfAny(error);
-                }
-            } while (error != "");
-
-            do
-            {
-                ConsoleWrite("Please enter the path to the translation file that you want to check", ConsoleColor.Cyan);
-                targetPath = Console.ReadLine();
-                if (!FileSynchronizer.IsFileValid(targetPath, out error))
-                {
-                    DisplayErrorIfAny(error);
-                }
-            } while (error != "");
+            var referencePath = GetFilePathAndVerify("Please enter the path to the reference file you want to use");
+            var targetPath = GetFilePathAndVerify("Please enter the path to the translation file that you want to check");
 
             Console.WriteLine();
             var report = checker.RunAnalyzer(referencePath, targetPath);
@@ -307,8 +258,8 @@ namespace TranslationToolKit
             do
             {
                 Console.WriteLine("");
-                Console.WriteLine($"{ask} ? (Y/N)");
-                answer = Console.ReadLine().ToUpper();
+                Console.WriteLine($"{ask} ? Y/N (or press escape to return to main menu)");
+                answer = CaptureConsoleInputLine().ToUpper();
             } while (answer != "Y" 
                     && answer != "N"
                     && answer != "NO"
@@ -332,11 +283,70 @@ namespace TranslationToolKit
             }
         }
 
+        /// <summary>
+        /// Write a line in the console, in the specified color, but make sure to re-establish the default color afterwards.
+        /// </summary>
+        /// <param name="lineToBeWritten"></param>
+        /// <param name="color"></param>
         private void ConsoleWrite(string lineToBeWritten, ConsoleColor color)
         {
             Console.ForegroundColor = color;
             Console.WriteLine(lineToBeWritten);
             Console.ForegroundColor = OriginalColor;
+        }
+
+        /// <summary>
+        /// Capture the input from the console, 
+        /// Returns the value when Enter is pressed,
+        /// Throws an exception that send us back to the main menu if the Escape key is pressed.
+        /// </summary>
+        /// <returns></returns>
+        private string CaptureConsoleInputLine()
+        {
+            ConsoleKeyInfo key;
+            string answer = string.Empty;
+            do
+            {
+                key = Console.ReadKey();
+                if (key.Key == ConsoleKey.Escape)
+                {
+                    throw new AbortException();
+                }
+                else if (key.Key == ConsoleKey.Backspace && answer.Length > 0)
+                {
+                    answer = answer[0..^1];
+                }
+                else if (key.Key == ConsoleKey.Enter)
+                {
+                    continue;
+                }
+                else
+                {
+                    answer += key.KeyChar;
+                }
+            } while (key.Key != ConsoleKey.Enter);
+            return answer;
+        }
+
+        /// <summary>
+        /// Get the file path from a user, and verify it's a valid path.
+        /// </summary>
+        /// <returns></returns>
+        private string GetFilePathAndVerify(string message, ConsoleColor color = ConsoleColor.Cyan)
+        {
+            string error;
+            string path;
+            do
+            {
+                ConsoleWrite($"{message} (or press escape to return to main menu)", color);
+                path = CaptureConsoleInputLine();
+                if (!ValidationHelper.IsFileValid(path, out error))
+                {
+                    DisplayErrorIfAny(error);
+                }
+            } while (error != "");
+            Console.WriteLine();
+            return path;
         }
     }
 }
