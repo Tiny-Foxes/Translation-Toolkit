@@ -304,28 +304,12 @@ namespace TranslationToolKit
         private string CaptureConsoleInputLine()
         {
             ConsoleKeyInfo key;
-            string answer = string.Empty;
-            do
+            key = Console.ReadKey();
+            if (key.Key == ConsoleKey.Escape)
             {
-                key = Console.ReadKey();
-                if (key.Key == ConsoleKey.Escape)
-                {
-                    throw new AbortException();
-                }
-                else if (key.Key == ConsoleKey.Backspace && answer.Length > 0)
-                {
-                    answer = answer[0..^1];
-                }
-                else if (key.Key == ConsoleKey.Enter)
-                {
-                    continue;
-                }
-                else
-                {
-                    answer += key.KeyChar;
-                }
-            } while (key.Key != ConsoleKey.Enter);
-            return answer;
+                throw new AbortException();
+            }            
+            return key.KeyChar + Console.ReadLine();
         }
 
         /// <summary>
@@ -345,7 +329,6 @@ namespace TranslationToolKit
                     DisplayErrorIfAny(error);
                 }
             } while (error != "");
-            Console.WriteLine();
             return path;
         }
     }
