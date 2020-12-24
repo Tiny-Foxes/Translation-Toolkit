@@ -308,7 +308,7 @@ namespace TranslationToolKit
             if (key.Key == ConsoleKey.Escape)
             {
                 throw new AbortException();
-            }            
+            }
             return key.KeyChar + Console.ReadLine();
         }
 
@@ -324,6 +324,13 @@ namespace TranslationToolKit
             {
                 ConsoleWrite($"{message} (or press escape to return to main menu)", color);
                 path = CaptureConsoleInputLine();
+                if(path.StartsWith('"') && path.EndsWith('"'))
+                {
+                    // Automatically handles paths that have been copy-pasted with quotes around them
+                    // (that's the case for any windows path with a space in it).
+                    // We remove the quotes
+                    path = path[1..^1];
+                }
                 if (!ValidationHelper.IsFileValid(path, out error))
                 {
                     DisplayErrorIfAny(error);
